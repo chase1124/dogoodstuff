@@ -62,23 +62,104 @@
     z-index: 2;
   }
 
-  /* Big circle in background */
-  .hero-circle {
+  /* ---- EARTH SCENE ---- */
+  .earth-scene {
+    position: absolute;
+    width: 680px;
+    height: 680px;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .earth-glow {
+    position: absolute;
+    inset: -50px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(100,200,255,0.1) 40%, transparent 68%);
+    animation: glowPulse 7s ease-in-out infinite;
+  }
+
+  .earth-wrapper {
     position: absolute;
     width: 680px;
     height: 680px;
     border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, var(--wheat), var(--terra) 60%, var(--clay));
-    right: -80px;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0.35;
-    animation: breathe 8s ease-in-out infinite;
+    overflow: hidden;
+    animation: earthEntrance 2s 0.4s ease both;
+    box-shadow:
+      0 0 100px rgba(80,180,255,0.15),
+      0 30px 90px rgba(0,20,60,0.2);
   }
 
-  @keyframes breathe {
-    0%, 100% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-52%) scale(1.03); }
+  .earth-svg { width: 100%; height: 100%; }
+
+  .scene-float {
+    position: absolute;
+    animation: sceneFloat var(--dur, 5s) var(--del, 2s) ease-in-out infinite;
+  }
+
+  .scene-bubble {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(250, 246, 238, 0.93);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(193,122,74,0.18);
+    border-radius: 50px;
+    padding: 8px 15px 8px 11px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.06);
+    white-space: nowrap;
+    opacity: 0;
+    animation: sceneAppear 0.65s var(--del, 2s) ease forwards;
+  }
+
+  .scene-icon { font-size: 1.25rem; line-height: 1; }
+
+  .scene-text {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--clay);
+  }
+
+  .scene-trees-row { display: flex; align-items: flex-end; gap: 2px; }
+
+  .st {
+    display: inline-block;
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0;
+    transform: scale(0.3) translateY(6px);
+  }
+
+  .st1 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 0.2s) ease forwards; }
+  .st2 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 1.0s) ease forwards; }
+  .st3 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 1.9s) ease forwards; }
+
+  @keyframes treeGrow {
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  @keyframes earthEntrance {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes sceneFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes sceneAppear {
+    from { opacity: 0; transform: scale(0.78) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
   }
 
   .nav {
@@ -505,7 +586,8 @@
     .principles-grid { grid-template-columns: 1fr; }
     .philosophy-visual { height: 200px; }
     footer { flex-direction: column; gap: 1rem; text-align: center; }
-    .hero-circle { width: 400px; height: 400px; opacity: 0.2; }
+    .earth-scene { opacity: 0.25; transform: translateY(-50%) scale(0.56); }
+    .scene-float { display: none; }
   }
 </style>
 </head>
@@ -513,7 +595,101 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-circle"></div>
+  <!-- FLOATING EARTH -->
+  <div class="earth-scene">
+    <div class="earth-glow"></div>
+    <div class="earth-wrapper">
+      <svg class="earth-svg" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="ocean" cx="38%" cy="33%" r="65%">
+            <stop offset="0%" stop-color="#68CBE8"/>
+            <stop offset="40%" stop-color="#1976C8"/>
+            <stop offset="100%" stop-color="#0B3D8C"/>
+          </radialGradient>
+          <radialGradient id="earth-hl" cx="32%" cy="28%" r="38%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.28)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <radialGradient id="earth-sh" cx="68%" cy="70%" r="45%">
+            <stop offset="0%" stop-color="rgba(0,10,40,0.55)"/>
+            <stop offset="100%" stop-color="transparent"/>
+          </radialGradient>
+          <clipPath id="earthClip">
+            <circle cx="150" cy="150" r="147"/>
+          </clipPath>
+        </defs>
+        <!-- Ocean -->
+        <circle cx="150" cy="150" r="147" fill="url(#ocean)"/>
+        <!-- Continents -->
+        <g clip-path="url(#earthClip)">
+          <!-- North America -->
+          <path d="M52,82 C58,64 76,52 96,56 C116,60 124,78 120,98 C116,114 106,126 110,150 C113,170 104,195 93,215 C83,238 80,256 90,266 L75,258 C62,242 68,220 74,198 C80,176 84,156 77,132 C70,108 58,102 52,82 Z" fill="#4A7C59"/>
+          <path d="M96,56 C116,46 138,44 142,58 C146,70 133,82 116,84 C102,86 88,78 96,56 Z" fill="#4A7C59"/>
+          <!-- Greenland -->
+          <path d="M98,38 C114,30 134,34 138,50 C142,64 130,74 114,72 C98,70 88,52 98,38 Z" fill="#D4ECF5" opacity="0.9"/>
+          <!-- Europe -->
+          <path d="M140,66 C152,56 172,53 184,64 C196,74 193,92 180,100 C168,106 152,100 145,88 C138,78 136,74 140,66 Z" fill="#5E906A"/>
+          <!-- Asia -->
+          <path d="M184,60 C204,50 232,52 252,64 C272,76 278,94 270,114 C262,132 244,138 224,132 C206,126 192,112 188,94 C185,78 184,70 184,60 Z" fill="#5E906A"/>
+          <path d="M252,64 C268,58 284,66 288,80 C292,94 282,110 268,114 C254,118 244,108 244,94 C244,80 246,68 252,64 Z" fill="#5E906A" opacity="0.9"/>
+          <!-- Africa -->
+          <path d="M150,108 C165,100 184,102 194,116 C204,128 206,152 202,174 C198,196 188,220 176,236 C164,252 148,256 138,242 C128,228 126,204 130,180 C134,156 138,134 142,118 C145,110 148,108 150,108 Z" fill="#4A7C59"/>
+          <!-- SE Asia -->
+          <path d="M236,136 C250,130 266,136 270,148 C274,160 264,174 250,176 C236,178 226,166 228,152 C230,140 234,138 236,136 Z" fill="#4A7C59" opacity="0.9"/>
+          <!-- Australia -->
+          <path d="M232,188 C248,180 268,184 274,200 C280,214 272,232 256,238 C240,244 224,234 220,220 C216,206 218,192 232,188 Z" fill="#5E906A"/>
+          <!-- South America -->
+          <path d="M90,205 C96,195 108,192 118,198 C128,204 132,220 128,244 C124,266 115,284 104,292 C93,300 80,296 76,280 C72,264 80,246 86,228 C89,218 89,208 90,205 Z" fill="#4A7C59"/>
+          <!-- Antarctica -->
+          <path d="M20,284 C70,274 148,270 228,276 C268,278 292,286 300,296 L300,300 L0,300 Z" fill="#D4ECF5" opacity="0.88"/>
+        </g>
+        <!-- 3D lighting -->
+        <circle cx="150" cy="150" r="147" fill="url(#earth-sh)"/>
+        <circle cx="150" cy="150" r="147" fill="url(#earth-hl)"/>
+        <!-- Atmosphere -->
+        <circle cx="150" cy="150" r="147" fill="none" stroke="rgba(120,195,255,0.4)" stroke-width="10"/>
+        <circle cx="150" cy="150" r="153" fill="none" stroke="rgba(120,195,255,0.12)" stroke-width="10"/>
+      </svg>
+    </div>
+
+    <!-- Scenes unfolding around the Earth -->
+    <div class="scene-float" style="top: 48px; left: 348px; --del: 1.8s; --dur: 5.5s;">
+      <div class="scene-bubble">
+        <div class="scene-trees-row">
+          <span class="st st1">🌱</span><span class="st st2">🌿</span><span class="st st3">🌲</span>
+        </div>
+        <span class="scene-text">Reforesting</span>
+      </div>
+    </div>
+
+    <div class="scene-float" style="top: 195px; left: 408px; --del: 3.4s; --dur: 4.8s;">
+      <div class="scene-bubble">
+        <span class="scene-icon">♻️</span>
+        <span class="scene-text">Sorting waste</span>
+      </div>
+    </div>
+
+    <div class="scene-float" style="top: 355px; left: 398px; --del: 5.0s; --dur: 6.2s;">
+      <div class="scene-bubble">
+        <span class="scene-icon">⚡</span>
+        <span class="scene-text">Charging EV</span>
+      </div>
+    </div>
+
+    <div class="scene-float" style="top: 506px; left: 335px; --del: 6.4s; --dur: 5.0s;">
+      <div class="scene-bubble">
+        <span class="scene-icon">🚴</span>
+        <span class="scene-text">Cycling to work</span>
+      </div>
+    </div>
+
+    <div class="scene-float" style="top: 582px; left: 152px; --del: 7.8s; --dur: 5.4s;">
+      <div class="scene-bubble">
+        <span class="scene-icon">🥦</span>
+        <span class="scene-text">Conscious choices</span>
+      </div>
+    </div>
+  </div>
 
   <nav class="nav">
   </nav>
