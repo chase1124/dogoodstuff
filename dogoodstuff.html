@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do Good Stuff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --soil: #2C1A0E;
+    --clay: #7D4A2A;
+    --terra: #C17A4A;
+    --wheat: #E8C98A;
+    --cream: #F5EDD8;
+    --sage: #6B8C6B;
+    --sky: #A8C4B8;
+    --dusk: #4A6B7A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--soil);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 20px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    z-index: 2;
+  }
+
+  /* Big circle in background */
+  .hero-circle {
+    position: absolute;
+    width: 680px;
+    height: 680px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, var(--wheat), var(--terra) 60%, var(--clay));
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.35;
+    animation: breathe 8s ease-in-out infinite;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: translateY(-50%) scale(1); }
+    50% { transform: translateY(-52%) scale(1.03); }
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 10;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--soil);
+    text-decoration: none;
+  }
+
+  .nav-tagline {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--clay);
+    font-weight: 300;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 700px;
+    position: relative;
+    z-index: 10;
+    padding: 2rem 0;
+  }
+
+  .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 1.0;
+    color: var(--soil);
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--clay);
+  }
+
+  .hero-subtitle {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--soil);
+    max-width: 520px;
+    line-height: 1.8;
+    animation: fadeUp 1s 0.5s ease both;
+  }
+
+  .hero-cta {
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    animation: fadeUp 1s 0.7s ease both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.9rem 2.2rem;
+    background: var(--soil);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .btn-primary:hover {
+    background: var(--clay);
+    transform: translateY(-2px);
+  }
+
+  .scroll-hint {
+    font-size: 0.85rem;
+    color: var(--terra);
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .scroll-hint::before {
+    content: '↓';
+    font-style: normal;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+
+  /* ---- SECTIONS ---- */
+  section {
+    padding: 7rem 4rem;
+    position: relative;
+  }
+
+  .section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* ---- MANIFESTO ---- */
+  .manifesto {
+    background: var(--soil);
+    color: var(--cream);
+  }
+
+  .manifesto .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .manifesto-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1.5rem;
+  }
+
+  .manifesto h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--cream);
+  }
+
+  .manifesto h2 em {
+    color: var(--wheat);
+    font-style: italic;
+  }
+
+  .manifesto-body p {
+    color: rgba(245, 237, 216, 0.8);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .manifesto-body p:last-child { margin-bottom: 0; }
+
+  .manifesto-body strong {
+    color: var(--wheat);
+    font-weight: 400;
+  }
+
+  /* ---- PRINCIPLES ---- */
+  .principles {
+    background: var(--cream);
+  }
+
+  .principles-header {
+    text-align: center;
+    margin-bottom: 5rem;
+  }
+
+  .principles-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-top: 1rem;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--wheat);
+  }
+
+  .principle {
+    padding: 3rem;
+    border: 1px solid var(--wheat);
+    position: relative;
+    transition: background 0.4s;
+  }
+
+  .principle:hover {
+    background: var(--wheat);
+  }
+
+  .principle-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--wheat);
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.4s;
+  }
+
+  .principle:hover .principle-num {
+    color: var(--terra);
+  }
+
+  .principle h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--soil);
+  }
+
+  .principle p {
+    font-size: 0.95rem;
+    color: var(--clay);
+    line-height: 1.7;
+  }
+
+  /* ---- TECH PHILOSOPHY ---- */
+  .philosophy {
+    background: var(--sky);
+    color: var(--soil);
+    overflow: hidden;
+  }
+
+  .philosophy .section-inner {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .philosophy-visual {
+    position: relative;
+    height: 280px;
+  }
+
+  .phone-off {
+    position: absolute;
+    width: 100px;
+    height: 170px;
+    border: 3px solid var(--dusk);
+    border-radius: 16px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--dusk);
+    animation: tilt 4s ease-in-out infinite;
+    box-shadow: 0 8px 32px rgba(74, 107, 122, 0.2);
+  }
+
+  .phone-off::after {
+    content: '';
+    position: absolute;
+    width: 130%;
+    height: 3px;
+    background: var(--terra);
+    transform: rotate(35deg);
+    border-radius: 2px;
+  }
+
+  .hands {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    animation: wave 3s ease-in-out infinite 1s;
+    white-space: nowrap;
+  }
+
+  @keyframes tilt {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-8deg); }
+    50% { transform: translate(-50%, -55%) rotate(-4deg); }
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) rotate(10deg); }
+    75% { transform: translateX(-50%) rotate(-10deg); }
+  }
+
+  .philosophy-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+  }
+
+  .philosophy-text p {
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .philosophy-text .highlight {
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--dusk);
+    border-left: 3px solid var(--dusk);
+    padding-left: 1.2rem;
+    margin: 2rem 0;
+  }
+
+  /* ---- VISION ---- */
+  .vision {
+    background: var(--terra);
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .vision h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 2rem;
+    max-width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .vision h2 em {
+    font-style: italic;
+    color: var(--wheat);
+  }
+
+  .vision p {
+    font-size: 1.15rem;
+    font-weight: 300;
+    max-width: 580px;
+    margin: 0 auto 3rem;
+    opacity: 0.9;
+  }
+
+  .vision-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border: 2px solid var(--cream);
+    color: var(--cream);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.05rem;
+    text-decoration: none;
+    border-radius: 2px;
+    letter-spacing: 0.06em;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .vision-btn:hover {
+    background: var(--cream);
+    color: var(--terra);
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: var(--soil);
+    color: var(--cream);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer .logo { color: var(--cream); font-size: 1rem; }
+
+  footer p {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 768px) {
+    .hero { padding: 2rem; }
+    section { padding: 5rem 2rem; }
+    .manifesto .section-inner,
+    .philosophy .section-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .principles-grid { grid-template-columns: 1fr; }
+    .philosophy-visual { height: 200px; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .hero-circle { width: 400px; height: 400px; opacity: 0.2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-circle"></div>
+
+  <nav class="nav">
+  </nav>
+
+  <div class="hero-content">
+    <p class="eyebrow">Technology to human better</p>
+    <h1 class="hero-title">Do good<br>Stuff.</h1>
+    <p class="hero-subtitle">Tools that deepen our connection and understanding of the world we live in. Tools that stay in our pocket or on our desk so that we can actually live human lives, not be the tool for a virtual first life.</p>
+    <div class="hero-cta">
+      <a href="#manifesto" class="btn-primary">Read our mission</a>
+      <span class="scroll-hint">keep reading</span>
+    </div>
+  </div>
+
+  <div></div>
+</section>
+
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto">
+  <div class="section-inner reveal">
+    <div>
+      <p class="manifesto-label">Our mission</p>
+      <h2>Help people do <em>good stuff</em> — for themselves <em>and</em> for others.</h2>
+    </div>
+    <div class="manifesto-body">
+      <p>We believe technology has a problem. Most of it is designed to consume your attention, keeping you on a device rather than in the world.</p>
+      <p>We want to build for a different outcome. Tools that serve a mission of public good — and then get out of the way. Tools that help you do good things for yourself, for the people around you, and for your community.</p>
+      <p>We want you to exist in the real, physical world. Not a virtual one. We want you to see real, local people, places and things. Not feeds always meant to take you far away.</p>
+      <p>We want to use technology to deepen your observation, desire to act, and feeling of meaning. And then we want you to put the phone away and live your life.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- PRINCIPLES -->
+<section class="principles">
+  <div class="section-inner">
+    <div class="principles-header reveal">
+      <p class="eyebrow">What we believe</p>
+      <h2>Our guiding principles</h2>
+    </div>
+    <div class="principles-grid reveal">
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <h3>Doing good for others, makes us feel good as individuals too.</h3>
+      </div>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <h3>We should use tools designed to scale human values.</h3>
+      </div>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <h3>We should be where we physically are, as often as possible.</h3>
+      </div>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <h3>We should make the World a better place than we found it.</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="section-inner reveal">
+    <div class="philosophy-visual">
+      <div class="phone-off">📵</div>
+      <div class="hands">🤝</div>
+    </div>
+    <div class="philosophy-text">
+      <h2>We want you <em>off</em> the phone.</h2>
+      <p>That's not a bug in our product strategy. It's the whole point.</p>
+      <p class="highlight">"To a hammer, everything is a nail. To an iPhone, every user is a ..."</p>
+      <p>Tools built with human values first asks: what outcome serves us as individuals? What allows us to see the meaning in our days, our impacts, our values? What connects us to the people and the environment around us? And how do we build tools that do that and then get out of the way?</p>
+      <p>We're building for ourselves and our kids. Tools we want to use, not profit from and avoid.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- VISION -->
+<section class="vision">
+  <div class="section-inner reveal">
+    <h2>Do Good Stuff in the real, physical world.</h2>
+    <p>We're building tools to give you the experiences that make you believe in yourself and the impact of your choices. We believe in you. Living a life you feel proud of is your human right.</p>
+    <a href="mailto:james@dogoodstuff.org" class="vision-btn">Contact Us</a>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">dogoodstuff.org</a>
+  <p>Make the World a better place than you found it.</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
