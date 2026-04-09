@@ -97,7 +97,7 @@
 
   .scene-float {
     position: absolute;
-    animation: sceneFloat var(--dur, 5s) var(--del, 2s) ease-in-out infinite;
+    animation: sceneFloat var(--dur, 5s) ease-in-out infinite;
   }
 
   .scene-bubble {
@@ -112,7 +112,13 @@
     box-shadow: 0 4px 18px rgba(0,0,0,0.11), 0 1px 3px rgba(0,0,0,0.06);
     white-space: nowrap;
     opacity: 0;
-    animation: sceneAppear 0.65s var(--del, 2s) ease forwards;
+    transform: scale(0.85) translateY(5px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  .scene-bubble.visible {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 
   .scene-icon { font-size: 1.25rem; line-height: 1; }
@@ -122,24 +128,6 @@
     font-size: 0.88rem;
     font-style: italic;
     color: var(--clay);
-  }
-
-  .scene-trees-row { display: flex; align-items: flex-end; gap: 2px; }
-
-  .st {
-    display: inline-block;
-    font-size: 1.1rem;
-    line-height: 1;
-    opacity: 0;
-    transform: scale(0.3) translateY(6px);
-  }
-
-  .st1 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 0.2s) ease forwards; }
-  .st2 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 1.0s) ease forwards; }
-  .st3 { animation: treeGrow 0.5s calc(var(--del, 1.8s) + 1.9s) ease forwards; }
-
-  @keyframes treeGrow {
-    to { opacity: 1; transform: scale(1) translateY(0); }
   }
 
   @keyframes glowPulse {
@@ -155,11 +143,6 @@
   @keyframes sceneFloat {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
-  }
-
-  @keyframes sceneAppear {
-    from { opacity: 0; transform: scale(0.78) translateY(8px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
   }
 
   .nav {
@@ -652,43 +635,6 @@
       </svg>
     </div>
 
-    <!-- Scenes unfolding around the Earth -->
-    <div class="scene-float" style="top: 48px; left: 348px; --del: 1.8s; --dur: 5.5s;">
-      <div class="scene-bubble">
-        <div class="scene-trees-row">
-          <span class="st st1">🌱</span><span class="st st2">🌿</span><span class="st st3">🌲</span>
-        </div>
-        <span class="scene-text">Reforesting</span>
-      </div>
-    </div>
-
-    <div class="scene-float" style="top: 195px; left: 408px; --del: 3.4s; --dur: 4.8s;">
-      <div class="scene-bubble">
-        <span class="scene-icon">♻️</span>
-        <span class="scene-text">Sorting waste</span>
-      </div>
-    </div>
-
-    <div class="scene-float" style="top: 355px; left: 398px; --del: 5.0s; --dur: 6.2s;">
-      <div class="scene-bubble">
-        <span class="scene-icon">⚡</span>
-        <span class="scene-text">Charging EV</span>
-      </div>
-    </div>
-
-    <div class="scene-float" style="top: 506px; left: 335px; --del: 6.4s; --dur: 5.0s;">
-      <div class="scene-bubble">
-        <span class="scene-icon">🚴</span>
-        <span class="scene-text">Cycling to work</span>
-      </div>
-    </div>
-
-    <div class="scene-float" style="top: 582px; left: 152px; --del: 7.8s; --dur: 5.4s;">
-      <div class="scene-bubble">
-        <span class="scene-icon">🥦</span>
-        <span class="scene-text">Conscious choices</span>
-      </div>
-    </div>
   </div>
 
   <nav class="nav">
@@ -793,12 +739,102 @@
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
+      if (e.isIntersecting) e.target.classList.add('visible');
     });
   }, { threshold: 0.15 });
   reveals.forEach(el => observer.observe(el));
+
+  // Earth scene cycling
+  (function() {
+    const scenes = [
+      { icon: '🌲', text: 'Reforesting' },
+      { icon: '♻️', text: 'Sorting waste' },
+      { icon: '⚡', text: 'Charging EV' },
+      { icon: '🚴', text: 'Cycling to work' },
+      { icon: '🥦', text: 'veggies, nom nom' },
+      { icon: '🍾', text: 'Returning bottles' },
+      { icon: '🚌', text: 'Public transiting' },
+      { icon: '🐄', text: 'Petting cows' },
+      { icon: '🤝', text: 'Stopping to help' },
+    ];
+
+    // Positions distributed around the visible Earth surface
+    const allPositions = [
+      { top: 50,  left: 345 },
+      { top: 165, left: 415 },
+      { top: 300, left: 418 },
+      { top: 435, left: 395 },
+      { top: 545, left: 328 },
+      { top: 590, left: 160 },
+      { top: 115, left: 195 },
+      { top: 390, left: 165 },
+      { top: 490, left: 195 },
+    ];
+
+    const SHOW_MS   = 4800;
+    const FADE_MS   = 550;
+    const SPAWN_GAP = 1400; // ms between initial spawns
+    const NUM_SLOTS = 5;
+
+    const earthScene = document.querySelector('.earth-scene');
+    if (!earthScene) return;
+
+    const usedPos = new Set();
+    let shuffled = [...scenes].sort(() => Math.random() - 0.5);
+    let sIdx = 0;
+
+    function nextScene() {
+      const s = shuffled[sIdx % shuffled.length];
+      sIdx++;
+      if (sIdx % scenes.length === 0) shuffled = [...scenes].sort(() => Math.random() - 0.5);
+      return s;
+    }
+
+    function pickPos(avoidIdx) {
+      const free = allPositions.map((_, i) => i).filter(i => !usedPos.has(i) && i !== avoidIdx);
+      const pool = free.length ? free : allPositions.map((_, i) => i).filter(i => i !== avoidIdx);
+      const chosen = pool[Math.floor(Math.random() * pool.length)];
+      usedPos.add(chosen);
+      return chosen;
+    }
+
+    function spawnBubble(delayMs, prevPosIdx) {
+      setTimeout(() => {
+        const posIdx = pickPos(prevPosIdx);
+        const pos    = allPositions[posIdx];
+        const scene  = nextScene();
+        const dur    = (4.2 + Math.random() * 2.2).toFixed(1) + 's';
+
+        const float  = document.createElement('div');
+        float.className = 'scene-float';
+        float.style.cssText = `top:${pos.top}px;left:${pos.left}px;--dur:${dur}`;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'scene-bubble';
+        bubble.innerHTML = `<span class="scene-icon">${scene.icon}</span><span class="scene-text">${scene.text}</span>`;
+        float.appendChild(bubble);
+        earthScene.appendChild(float);
+
+        // Fade in
+        requestAnimationFrame(() => requestAnimationFrame(() => bubble.classList.add('visible')));
+
+        // Fade out, then relocate and respawn
+        setTimeout(() => {
+          bubble.classList.remove('visible');
+          setTimeout(() => {
+            float.remove();
+            usedPos.delete(posIdx);
+            spawnBubble(300 + Math.random() * 600, posIdx);
+          }, FADE_MS + 80);
+        }, SHOW_MS);
+      }, delayMs);
+    }
+
+    // Stagger initial appearances
+    for (let i = 0; i < NUM_SLOTS; i++) {
+      spawnBubble(1600 + i * SPAWN_GAP, -1);
+    }
+  })();
 </script>
 </body>
 </html>
