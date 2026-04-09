@@ -756,9 +756,15 @@
       { icon: '🚌', text: 'Public transiting' },
       { icon: '🐄', text: 'Petting cows' },
       { icon: '🤝', text: 'Stopping to help' },
+      { icon: '🧹', text: 'Picking trash' },
+      { icon: '🚗', text: 'Carpooling' },
+      { icon: '🫙', text: 'Single Use? No thanks' },
+      { icon: '🌿', text: 'Composting, yum' },
+      { icon: '🔧', text: 'Fixing, not buying' },
+      { icon: '💡', text: 'Lights off!' },
+      { icon: '👋', text: 'Hi neighbor!' },
     ];
 
-    // Positions distributed around the visible Earth surface
     const allPositions = [
       { top: 50,  left: 345 },
       { top: 165, left: 415 },
@@ -771,10 +777,11 @@
       { top: 490, left: 195 },
     ];
 
-    const SHOW_MS   = 4800;
-    const FADE_MS   = 550;
-    const SPAWN_GAP = 1400; // ms between initial spawns
-    const NUM_SLOTS = 5;
+    const SHOW_MS   = 9000;  // how long each bubble stays visible
+    const FADE_MS   = 700;   // fade transition duration
+    const MIN_GAP   = 3000;  // minimum ms between any two transitions
+    const NUM_SLOTS = 4;     // bubbles on screen at once
+    const SPAWN_GAP = 2400;  // ms between initial appearances
 
     const earthScene = document.querySelector('.earth-scene');
     if (!earthScene) return;
@@ -782,6 +789,7 @@
     const usedPos = new Set();
     let shuffled = [...scenes].sort(() => Math.random() - 0.5);
     let sIdx = 0;
+    let nextAllowed = 0; // timestamp: earliest the next transition may occur
 
     function nextScene() {
       const s = shuffled[sIdx % shuffled.length];
@@ -798,12 +806,27 @@
       return chosen;
     }
 
+    function scheduleFadeOut(bubble, float, posIdx) {
+      // Poll until both SHOW_MS has elapsed AND the global gap has cleared
+      setTimeout(function tryFade() {
+        const now = Date.now();
+        if (now < nextAllowed) { setTimeout(tryFade, nextAllowed - now + 40); return; }
+        nextAllowed = now + MIN_GAP;
+        bubble.classList.remove('visible');
+        setTimeout(() => {
+          float.remove();
+          usedPos.delete(posIdx);
+          spawnBubble(800 + Math.random() * 600, posIdx);
+        }, FADE_MS + 100);
+      }, SHOW_MS);
+    }
+
     function spawnBubble(delayMs, prevPosIdx) {
       setTimeout(() => {
         const posIdx = pickPos(prevPosIdx);
         const pos    = allPositions[posIdx];
         const scene  = nextScene();
-        const dur    = (4.2 + Math.random() * 2.2).toFixed(1) + 's';
+        const dur    = (5 + Math.random() * 2.5).toFixed(1) + 's';
 
         const float  = document.createElement('div');
         float.className = 'scene-float';
@@ -815,24 +838,13 @@
         float.appendChild(bubble);
         earthScene.appendChild(float);
 
-        // Fade in
         requestAnimationFrame(() => requestAnimationFrame(() => bubble.classList.add('visible')));
-
-        // Fade out, then relocate and respawn
-        setTimeout(() => {
-          bubble.classList.remove('visible');
-          setTimeout(() => {
-            float.remove();
-            usedPos.delete(posIdx);
-            spawnBubble(300 + Math.random() * 600, posIdx);
-          }, FADE_MS + 80);
-        }, SHOW_MS);
+        scheduleFadeOut(bubble, float, posIdx);
       }, delayMs);
     }
 
-    // Stagger initial appearances
     for (let i = 0; i < NUM_SLOTS; i++) {
-      spawnBubble(1600 + i * SPAWN_GAP, -1);
+      spawnBubble(1800 + i * SPAWN_GAP, -1);
     }
   })();
 </script>
