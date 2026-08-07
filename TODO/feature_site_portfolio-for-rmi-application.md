@@ -66,18 +66,26 @@ The site currently presents three projects at equal weight. That is not accurate
       — **read it before writing any caption.** Deliberately over-collected; pare down when the
       page is built. Strongest four: `replay-day-animation.gif`,
       `explorer-model-fidelity-full.png`, `replay-day-pnl.png`, `replay-shade-by-array.png`.
-- [ ] **4b. GreenCart screenshots — BLOCKED ON JAMES, needs ~2 min.** The app is behind
-      email/password + passkey auth; every route except `/health` redirects to `/login`. Claude
-      cannot log in (entering passwords is prohibited) and will not work around the auth. Only
-      `screenshots/greencart/login.png` exists so far.
-      **To unblock:** reconnect the Claude-in-Chrome extension in the Chrome where you're already
-      signed in to GreenCart — then the captures happen against your live session and no
-      credential ever passes through Claude. The extension was disconnected for this whole
-      session (OGO was captured with headless Chrome over CDP instead, which worked because that
-      portal has no auth). Failing that, take the shots by hand.
-      **Two things the login page already told us, worth using in the copy:** GreenCart's own
-      tagline is **"Receipt Intelligence"**, and it ships **passkey (WebAuthn) sign-in** — a
-      non-trivial piece of engineering that the resume currently doesn't mention.
+- [x] **4b. GreenCart screenshots — DONE 2026-08-07.** Four captures + the login page in
+      `screenshots/greencart/`, taken through the Claude-in-Chrome extension against James's
+      signed-in Chrome (the app is behind email/password + passkey auth; no credential passed
+      through Claude). Quality caveat: viewport JPEGs, not retina PNGs like the OGO set.
+      **⚠ This repo is PUBLIC and serves the site via GitHub Pages**, so the two admin captures —
+      the best engineering evidence GreenCart has, and the only ones exposing real purchases and
+      `james@dogoodstuff.org` — are held in `screenshots/greencart/UNPUBLISHED/`, which is
+      gitignored. They exist on disk; they are not in git history. `README.md` there lays out
+      three ways to use them. **James's call**, and nothing publishes them by accident.
+      **Two things the app told us that the resume doesn't say:** the product's own tagline is
+      **"Receipt Intelligence"**, and it ships **passkey/WebAuthn sign-in** plus a deploy webhook
+      with a live status panel.
+- [ ] **4b-i. Decide what to do about the empty CO₂ Emissions page.** It reads 0.0 kg across 27
+      receipts with a flat chart and no high-impact items — the feature is built but the product
+      enrichment that populates it has never been run. **This is the single page a clean-energy
+      reviewer would most want to see**, so it is the highest-leverage thing to fix if GreenCart
+      is to carry any weight in an energy application. Options: run the enrichment backlog (the
+      Overview page's "Enrichment opportunities" queue is the same backlog) and re-shoot; or
+      leave it and don't feature emissions in the site copy. **Do not screenshot it as-is.**
+      📖 Prereq: `screenshots/greencart/README.md`
 - [ ] **4c. Decide TrashRangers' image.** `screenshots/trashrangers.png` is the only image the
       site has ever had, for the only project that doesn't exist. Its fate follows task 1.
 - [ ] **4d. Decide whether the OGO portal's placeholder explorer tiles get hidden before Sunday.**
@@ -147,7 +155,15 @@ against **08-06, a completed day** — shooting "today" gives near-empty charts 
 undersold the system. And walking the portal surfaced the placeholder-explorers and
 curtailment-not-priced findings recorded above, which directly constrain tasks 1 and 3.
 
-Then went for GreenCart (task 4b) and hit an auth wall — the app is entirely behind
+**Resolved same day:** James reconnected the Claude-in-Chrome extension and signed in, and 4b was
+captured against his live session. Worth keeping for next time: **a fresh Chrome profile does not
+inherit passkeys** — WebAuthn credentials scoped to Chrome's per-profile store exist only in the
+profile that created them — and **recent Chrome refuses `--remote-debugging-port` against the
+default profile directory**, deliberately. Those two facts together mean there is no CDP route
+into an authenticated app; the extension is the only tool for that job. Use CDP for public pages
+(retina, scriptable, no user in the loop) and the extension for anything behind a login.
+
+Earlier in the session, before that: went for GreenCart (task 4b) and hit an auth wall — the app is entirely behind
 email/password + passkey sign-in. Captured the login page only and stopped there rather than
 attempting to get around the auth. This is the one piece of the screenshot work that genuinely
 needs James, and it's small: reconnect the browser extension against an already-signed-in Chrome
