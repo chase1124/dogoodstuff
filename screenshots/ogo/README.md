@@ -38,6 +38,16 @@ and needed no day switch.
    caveat is visible in the screenshots, which is a credibility asset for an energy reader; keep
    it rather than cropping it out.
 
+## Curation notes for whoever builds the page
+
+- **Strongest four**, in order: `replay-day-animation.gif`, `explorer-model-fidelity-full.png`,
+  `replay-day-pnl.png`, `replay-shade-by-array.png`. If the page only has room for one, the GIF
+  carries the most — it shows shade detection happening rather than describing it.
+- **`sessions-money-flow.png` is the weakest** and probably shouldn't ship: four bars across eight
+  days, and the car reads 0 of a 30 kWh weekly target. Truthful, but it reads as an idle system.
+- **`replay-yard.png` vs `replay-yard-midday.png`** — use the midday one. The other is the 8 AM
+  default the page opens on, and the arrays are barely producing.
+
 ## Reproducing
 
 The capture scripts are throwaway CDP drivers (launch Chrome headless → navigate → click the day

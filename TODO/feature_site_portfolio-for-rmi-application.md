@@ -80,8 +80,17 @@ The site currently presents three projects at equal weight. That is not accurate
       non-trivial piece of engineering that the resume currently doesn't mention.
 - [ ] **4c. Decide TrashRangers' image.** `screenshots/trashrangers.png` is the only image the
       site has ever had, for the only project that doesn't exist. Its fate follows task 1.
+- [ ] **4d. Decide whether the OGO portal's placeholder explorer tiles get hidden before Sunday.**
+      If the resume link leads a reviewer into `portal.ogo.elm.therain.website`, the dashboard's
+      "All explorers" grid shows eight tiles — Plan, Forecast, Production forecast, Simulation,
+      Operational, Weather, Circuit, Cost — that are all `href="#"` with nothing behind them.
+      Clicking one and getting nothing is a worse first impression than never advertising it.
+      Options: hide the unbuilt tiles behind a flag for the review window; mark them visibly as
+      roadmap; or leave as-is and don't link a reviewer into the portal at all. **James's call**,
+      and it's the only one of these that touches OGO's own code rather than this site's.
 - [ ] **5. Confirm the resume/letter link target** — one stable URL. Deep-link to the projects
-      section if it has a stable anchor.
+      section if it has a stable anchor. Note this interacts with 4d: linking *into* the portal
+      and linking *to a portfolio page that shows screenshots of* the portal are different risks.
 - [ ] **6. Deploy and verify live** before the resume cites it. GitHub Pages; confirm the CNAME
       still resolves and the page renders.
 
@@ -123,6 +132,8 @@ system that states its error bars reads as more credible, not less.
 ## Open decisions — James's, not Claude's
 
 - Whether TrashRangers stays on the site at all, or is held until it's built
+- **Whether the OGO portal's eight placeholder explorer tiles get hidden before a reviewer can
+  click them** — see task 4d. Time-sensitive if the resume links into the portal.
 - Whether dance and StorageCommander appear
 - The email address the collaborator asks point to
 
