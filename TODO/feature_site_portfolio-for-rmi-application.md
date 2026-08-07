@@ -63,8 +63,18 @@ The site currently presents three projects at equal weight. That is not accurate
       — **read it before writing any caption.** Deliberately over-collected; pare down when the
       page is built. Strongest four: `replay-day-animation.gif`,
       `explorer-model-fidelity-full.png`, `replay-day-pnl.png`, `replay-shade-by-array.png`.
-- [ ] **4b. GreenCart screenshot(s)** — still none on disk. Same treatment from
-      `groceries.dogoodstuff.org`.
+- [ ] **4b. GreenCart screenshots — BLOCKED ON JAMES, needs ~2 min.** The app is behind
+      email/password + passkey auth; every route except `/health` redirects to `/login`. Claude
+      cannot log in (entering passwords is prohibited) and will not work around the auth. Only
+      `screenshots/greencart/login.png` exists so far.
+      **To unblock:** reconnect the Claude-in-Chrome extension in the Chrome where you're already
+      signed in to GreenCart — then the captures happen against your live session and no
+      credential ever passes through Claude. The extension was disconnected for this whole
+      session (OGO was captured with headless Chrome over CDP instead, which worked because that
+      portal has no auth). Failing that, take the shots by hand.
+      **Two things the login page already told us, worth using in the copy:** GreenCart's own
+      tagline is **"Receipt Intelligence"**, and it ships **passkey (WebAuthn) sign-in** — a
+      non-trivial piece of engineering that the resume currently doesn't mention.
 - [ ] **4c. Decide TrashRangers' image.** `screenshots/trashrangers.png` is the only image the
       site has ever had, for the only project that doesn't exist. Its fate follows task 1.
 - [ ] **5. Confirm the resume/letter link target** — one stable URL. Deep-link to the projects
