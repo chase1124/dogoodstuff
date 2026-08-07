@@ -638,11 +638,14 @@
     object-position: top center;
   }
 
+  /* Fills the card and bleeds off the bottom edge — a window onto the running app,
+     sized for real screenshots rather than the portrait mockups this once held. */
   .browser-frame {
-    width: 210px;
-    height: 252px;
+    width: 100%;
+    height: 100%;
     border: 1.5px solid rgba(245,237,216,0.18);
-    border-radius: 6px;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
     overflow: hidden;
     box-shadow: 0 10px 36px rgba(0,0,0,0.55);
     display: flex;
@@ -671,10 +674,16 @@
     overflow: hidden;
   }
 
-  .browser-content svg {
+  .browser-content svg,
+  .browser-content img {
     width: 100%;
     height: 100%;
     display: block;
+  }
+
+  .browser-content img {
+    object-fit: cover;
+    object-position: left top;
   }
 
   .app-info {
@@ -720,6 +729,48 @@
     color: var(--sky);
     border-color: rgba(168,196,184,0.28);
     background: rgba(168,196,184,0.07);
+  }
+
+  /* Running software gets a live dot; a concept gets a deliberately quiet pill, so the
+     two cannot be mistaken for degrees of the same thing. */
+  .status-live {
+    color: #7fc99a;
+    border-color: rgba(127,201,154,0.38);
+    background: rgba(127,201,154,0.09);
+  }
+
+  .status-live::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #7fc99a;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .modal-link {
+    display: inline-block;
+    margin: 1.5rem 0 0 0.75rem;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: var(--soil);
+    background: #7fc99a;
+    transition: opacity 0.25s ease;
+  }
+
+  .modal-link:hover { opacity: 0.82; }
+
+  .status-concept {
+    color: rgba(245,237,216,0.45);
+    border-color: rgba(245,237,216,0.16);
+    background: transparent;
   }
 
   .app-more {
@@ -984,7 +1035,7 @@
         <div class="app-info">
           <h3>TrashRangers</h3>
           <p>Your neighborhood is a quest. Go outside.</p>
-          <span class="app-status status-dev">In development</span>
+          <span class="app-status status-concept">Concept</span>
           <div class="app-more">Details →</div>
         </div>
       </div>
@@ -997,42 +1048,15 @@
               <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
             </div>
             <div class="browser-content">
-              <svg viewBox="0 0 210 230" xmlns="http://www.w3.org/2000/svg">
-                <rect width="210" height="230" fill="#0c110e"/>
-                <rect x="0" y="0" width="210" height="30" fill="#111a14"/>
-                <rect x="8" y="7" width="40" height="16" rx="3" fill="#1d2b22"/>
-                <rect x="54" y="7" width="40" height="16" rx="3" fill="#1d2b22" opacity="0.45"/>
-                <rect x="100" y="7" width="40" height="16" rx="3" fill="#1d2b22" opacity="0.45"/>
-                <rect x="146" y="7" width="40" height="16" rx="3" fill="#1d2b22" opacity="0.45"/>
-                <text x="11" y="52" font-size="8" fill="#4ade80" font-family="monospace">Scan Receipt</text>
-                <rect x="8" y="58" width="194" height="68" rx="4" fill="#1d2b22"/>
-                <rect x="16" y="67" width="88" height="7" rx="2" fill="#2a3d2e"/>
-                <rect x="162" y="67" width="28" height="7" rx="2" fill="#22543d"/>
-                <rect x="16" y="79" width="68" height="7" rx="2" fill="#2a3d2e"/>
-                <rect x="162" y="79" width="28" height="7" rx="2" fill="#78350f"/>
-                <rect x="16" y="91" width="80" height="7" rx="2" fill="#2a3d2e"/>
-                <rect x="162" y="91" width="28" height="7" rx="2" fill="#22543d"/>
-                <rect x="16" y="103" width="58" height="7" rx="2" fill="#2a3d2e"/>
-                <rect x="162" y="103" width="28" height="7" rx="2" fill="#22543d"/>
-                <rect x="8" y="136" width="194" height="84" rx="4" fill="#111a14"/>
-                <text x="16" y="150" font-size="8" fill="#5a7a5f" font-family="monospace">CO₂ footprint</text>
-                <rect x="16" y="198" width="14" height="26" rx="1" fill="#4ade80"/>
-                <rect x="36" y="186" width="14" height="38" rx="1" fill="#4ade80" opacity="0.8"/>
-                <rect x="56" y="174" width="14" height="50" rx="1" fill="#fbbf24"/>
-                <rect x="76" y="192" width="14" height="32" rx="1" fill="#4ade80"/>
-                <rect x="96" y="170" width="14" height="54" rx="1" fill="#f87171"/>
-                <rect x="116" y="184" width="14" height="40" rx="1" fill="#fbbf24" opacity="0.8"/>
-                <rect x="136" y="196" width="14" height="28" rx="1" fill="#4ade80"/>
-                <rect x="156" y="188" width="14" height="36" rx="1" fill="#4ade80" opacity="0.9"/>
-                <rect x="176" y="180" width="14" height="44" rx="1" fill="#fbbf24" opacity="0.7"/>
-              </svg>
+              <img src="screenshots/cards/card-greencart.jpg" loading="lazy"
+                   alt="GreenCart price history — per-unit prices for three products over time, with sale prices ringed"/>
             </div>
           </div>
         </div>
         <div class="app-info">
           <h3>GreenCart</h3>
           <p>See what your groceries actually cost.</p>
-          <span class="app-status status-dev">In development</span>
+          <span class="app-status status-live">Live</span>
           <div class="app-more">Details →</div>
         </div>
       </div>
@@ -1045,42 +1069,15 @@
               <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
             </div>
             <div class="browser-content">
-              <svg viewBox="0 0 210 230" xmlns="http://www.w3.org/2000/svg">
-                <rect width="210" height="230" fill="#070c18"/>
-                <rect x="0" y="0" width="210" height="28" fill="#0c1428"/>
-                <text x="10" y="19" font-size="9" fill="#7ab3e0" font-family="monospace">OffgridOperator</text>
-                <circle cx="30" cy="64" r="13" fill="none" stroke="#fbbf24" stroke-width="2"/>
-                <circle cx="30" cy="64" r="5.5" fill="#fbbf24" opacity="0.9"/>
-                <line x1="30" y1="44" x2="30" y2="40" stroke="#fbbf24" stroke-width="1.5"/>
-                <line x1="30" y1="84" x2="30" y2="88" stroke="#fbbf24" stroke-width="1.5"/>
-                <line x1="10" y1="64" x2="6" y2="64" stroke="#fbbf24" stroke-width="1.5"/>
-                <line x1="50" y1="64" x2="54" y2="64" stroke="#fbbf24" stroke-width="1.5"/>
-                <line x1="17" y1="51" x2="14" y2="48" stroke="#fbbf24" stroke-width="1.5"/>
-                <line x1="43" y1="77" x2="46" y2="80" stroke="#fbbf24" stroke-width="1.5"/>
-                <text x="56" y="57" font-size="16" fill="#e2f0ff" font-family="monospace" font-weight="bold">4.2 kW</text>
-                <text x="56" y="69" font-size="8" fill="#3a5070" font-family="monospace">Array output</text>
-                <rect x="56" y="76" width="42" height="11" rx="2" fill="none" stroke="#3a5070" stroke-width="1.2"/>
-                <rect x="98" y="80" width="3" height="3" rx="1" fill="#3a5070"/>
-                <rect x="57.5" y="77.5" width="34" height="8" rx="1.5" fill="#4ade80" opacity="0.85"/>
-                <text x="108" y="86" font-size="8" fill="#4ade80" font-family="monospace">82%</text>
-                <text x="140" y="65" font-size="12" fill="#e2f0ff" font-family="monospace" font-weight="bold">1.8 kW</text>
-                <text x="140" y="76" font-size="8" fill="#3a5070" font-family="monospace">Load now</text>
-                <line x1="8" y1="103" x2="202" y2="103" stroke="#152035" stroke-width="1"/>
-                <text x="8" y="116" font-size="8" fill="#3a5070" font-family="monospace">Generation &amp; load — today</text>
-                <polyline points="8,185 28,160 48,167 68,148 88,154 108,142 128,157 148,144 168,163 188,151 202,156" fill="none" stroke="#fbbf24" stroke-width="1.8"/>
-                <polyline points="8,190 28,180 48,184 68,174 88,178 108,170 128,176 148,167 168,180 188,172 202,176" fill="none" stroke="#7ab3e0" stroke-width="1.5" stroke-dasharray="4,3"/>
-                <line x1="8" y1="213" x2="20" y2="213" stroke="#fbbf24" stroke-width="1.8"/>
-                <text x="23" y="216" font-size="7" fill="#3a5070" font-family="monospace">generation</text>
-                <line x1="84" y1="213" x2="96" y2="213" stroke="#7ab3e0" stroke-width="1.5" stroke-dasharray="4,3"/>
-                <text x="99" y="216" font-size="7" fill="#3a5070" font-family="monospace">load</text>
-              </svg>
+              <img src="screenshots/cards/card-ogo.jpg" loading="lazy"
+                   alt="OffgridOperator day replay — live per-array output at 13:05 against expected, with sky irradiance and site output"/>
             </div>
           </div>
         </div>
         <div class="app-info">
           <h3>OffgridOperator</h3>
           <p>Live deliberately, even at the breaker box.</p>
-          <span class="app-status status-early">Early stage</span>
+          <span class="app-status status-live">In production</span>
           <div class="app-more">Details →</div>
         </div>
       </div>
@@ -1177,11 +1174,13 @@
     trashrangers: {
       name: 'TrashRangers',
       tagline: 'Your neighborhood is a quest. Go outside.',
+      concept: true,
       desc: [
-        'Log cleanup hauls, patrol regular routes, and track how much waste leaves your neighborhood over time. The app is gamified — ranks, XP, leaderboards — and we\'re honest that this is in tension with our core philosophy of getting people off their phones.',
-        'The experiment: can a dopamine hit get people outside, connected to their community, and habituated to civic action? The jury\'s still out. But the parks are cleaner.',
-        'Monthly hotspot reports auto-generate for local government, so your data does something real in the world.'
+        '<strong>This one is a concept, not software.</strong> No code has been written — what exists is the design work below. It sits here because the idea is worth arguing with, not because it ships.',
+        'The premise: log cleanup hauls, patrol regular routes, and track how much waste leaves your neighborhood over time. It would be gamified — ranks, XP, leaderboards — which is in open tension with our philosophy of getting people off their phones. That tension is the actual experiment: can a dopamine hit get people outside and habituated to civic action, or does it just move the addiction?',
+        'The part that would make it worth building is the last mile — monthly hotspot reports generated for local government, so the data does something in the world rather than sitting in an app.'
       ],
+      featuresLabel: 'What it would do',
       features: [
         'Route patrol map with cleanup history',
         'Haul logging with weight and bag tracking',
@@ -1189,40 +1188,44 @@
         'Neighborhood leaderboard and ranger ranks',
         'Auto-generated public works reports',
       ],
-      status: 'In development', cls: 'status-dev'
+      status: 'Concept', cls: 'status-concept'
     },
     greencart: {
       name: 'GreenCart',
       tagline: 'See what your groceries actually cost.',
+      link: 'https://groceries.dogoodstuff.org',
+      linkLabel: 'Open GreenCart',
       desc: [
-        'Scan your grocery receipts. GreenCart uses AI to extract every line item, track prices over time across stores, and estimate the CO₂ footprint of what you buy.',
-        'No streaks. No ranks. Just observability — the ability to see your choices clearly, understand the alternatives, and then put the phone down.',
-        'The goal isn\'t guilt. It\'s information. What you do with it is yours.'
+        'Photograph a grocery receipt and Claude Vision extracts every line item, price and quantity. The hard part isn\'t reading the receipt — it\'s that receipts are written in a private dialect. GreenCart resolves text like <em>1LT HRD SLTZR LEMON</em> into a normalized product catalog, so the same item bought at three stores under three names becomes one thing you can track.',
+        'From there it charts real per-unit price history across stores, separating sale prices from regular ones, so you can see what something actually costs rather than what it cost today.',
+        'No streaks. No ranks. Just observability — see your choices clearly, then put the phone down.'
       ],
       features: [
-        'AI receipt scanning via photo upload',
-        'Price history tracking across stores',
-        'CO₂ footprint per item with swap suggestions',
-        'Spending and emissions trends over time',
+        'Receipt scanning via Claude Vision',
+        'Receipt-text to product-catalog entity resolution',
+        'Per-unit price history across stores, sale vs regular',
+        'Passkey sign-in and a curation console for catalog data quality',
+        'CO₂ footprint per item — built, not yet populated',
       ],
-      status: 'In development', cls: 'status-dev'
+      status: 'Live', cls: 'status-live'
     },
     offgrid: {
       name: 'OffgridOperator',
       tagline: 'Live deliberately, even at the breaker box.',
       desc: [
-        'Solar array management for off-grid and hybrid systems. Track generation, monitor battery state, schedule loads intelligently, and catch anomalies before they become problems.',
-        'Built on Home Assistant. For people who chose self-sufficiency and want tooling that matches that intention.',
-        'Different from the other apps — this one is about infrastructure, not habit. But the philosophy is the same: give people honest information about their own systems and get out of the way.'
+        'Solar array management for off-grid and hybrid systems, running in production on a 20kW / 60kWh array. It does not just log what the panels made — it computes what they <em>should</em> have made, from solar geometry and measured sky irradiance, and prices the gap.',
+        'That turns a vague "output looks low" into an answer: this array lost $0.40 to shade this afternoon, that one is under-producing every clear hour in a way shade cannot explain — check the string. Each array-hour is classified as full sun, shaded, under-producing or diffuse, and the day is settled as a profit-and-loss statement.',
+        'Built on Home Assistant. It currently works on a limited range of hardware configurations — if you\'d like to help extend it to others, get in touch.'
       ],
       features: [
-        'Array metrics and anomaly detection',
-        'Load scheduling and profiling',
-        'Generation forecasting',
-        'Battery state monitoring',
-        'Home Assistant integration',
+        'Per-array expected-vs-actual modelling from measured irradiance',
+        'Shade, fault and under-production classified per array-hour',
+        'Daily P&L — what solar earned and what was left on the table',
+        'Battery trajectory against a committed load plan',
+        'Smart-load scheduling for EV charging and dehumidifiers',
+        'Cell-level battery safety monitoring',
       ],
-      status: 'Early stage', cls: 'status-early'
+      status: 'In production', cls: 'status-live'
     }
   };
 
@@ -1234,10 +1237,11 @@
       <p class="modal-tagline">${app.tagline}</p>
       <div class="modal-desc">${app.desc.map(p => `<p>${p}</p>`).join('')}</div>
       <div class="modal-features">
-        <h4>Key capabilities</h4>
+        <h4>${app.featuresLabel || 'Key capabilities'}</h4>
         <ul>${app.features.map(f => `<li>${f}</li>`).join('')}</ul>
       </div>
       <span class="app-status ${app.cls}" style="margin-top:1.5rem;display:inline-block">${app.status}</span>
+      ${app.link ? `<a class="modal-link" href="${app.link}" target="_blank" rel="noopener">${app.linkLabel || 'Open'} →</a>` : ''}
     `;
     document.getElementById('app-modal').classList.add('open');
     document.body.style.overflow = 'hidden';

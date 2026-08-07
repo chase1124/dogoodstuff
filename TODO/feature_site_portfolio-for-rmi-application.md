@@ -52,14 +52,27 @@ The site currently presents three projects at equal weight. That is not accurate
 
 ## Before Sunday — the RMI-blocking slice
 
-- [ ] **1. Correct the three project cards on `index.html`** to match the table above. The critical
-      one is TrashRangers: a concept presented alongside shipped software makes the shipped software
-      look like a concept too. 📖 Prereq: `screenshots/ogo/README.md` — its two caveats bound what
-      the OffGridOperator card may claim. 🛠 Skill: `/prototype` to preview the edited page on the
-      MacBook before pushing.
-- [ ] **2. Link GreenCart to `groceries.dogoodstuff.org`.**
-- [ ] **3. Describe OffGridOperator honestly** — running system, limited hardware configurations.
-      The caveat is a credibility asset on a page aimed at energy readers, not a weakness.
+- [x] **1. Correct the three project cards on `index.html` — DONE 2026-08-07.** Status pills now
+      say what is true: TrashRangers **Concept** (quiet outline pill), GreenCart **Live** and
+      OffgridOperator **In production** (both green, with a live dot). Previously all three read as
+      unfinished side projects — the two running systems understated, the concept overstated.
+      TrashRangers' modal now opens by saying it is a concept with no code written, and its
+      feature list is relabelled "What it would do".
+      **Also replaced the two hand-drawn SVG mockups with real screenshots.** GreenCart's and
+      OffgridOperator's cards had fake drawings; the only real image on the site was TrashRangers,
+      the project that doesn't exist. GreenCart's fake even drew a populated CO₂ chart — the one
+      feature that renders empty in reality. Card art is generated into `screenshots/cards/`,
+      cropped to the frame's measured 1.146 aspect so no panel is sliced.
+- [x] **2. Link GreenCart to `groceries.dogoodstuff.org` — DONE 2026-08-07.** The modal template
+      grew an optional `link`/`linkLabel` field; GreenCart's renders an "Open GreenCart →" button
+      beside the status pill. OffgridOperator deliberately has no link — see 4d, the portal is
+      LAN-only and its explorer grid is full of placeholders.
+- [x] **3. Describe OffGridOperator honestly — DONE 2026-08-07.** The old copy ("track
+      generation, monitor battery state, catch anomalies") described a monitoring dashboard. It now
+      says what actually runs: expected-vs-actual modelling from solar geometry and measured
+      irradiance, per-array-hour classification into shade / fault / under-production / diffuse,
+      and a daily P&L. Carries the limited-hardware caveat with the collaborator ask. **Curtailment
+      is deliberately not claimed** — only the classification ships, not the priced ledger.
 - [x] **4a. OffGridOperator screenshots — DONE 2026-08-07.** 28 retina PNGs + one animated GIF in
       `screenshots/ogo/`, captured from the live portal at `portal.ogo.elm.therain.website`.
       Provenance, a per-file table, and two honesty caveats are in `screenshots/ogo/README.md`
@@ -86,8 +99,11 @@ The site currently presents three projects at equal weight. That is not accurate
       Overview page's "Enrichment opportunities" queue is the same backlog) and re-shoot; or
       leave it and don't feature emissions in the site copy. **Do not screenshot it as-is.**
       📖 Prereq: `screenshots/greencart/README.md`
-- [ ] **4c. Decide TrashRangers' image.** `screenshots/trashrangers.png` is the only image the
-      site has ever had, for the only project that doesn't exist. Its fate follows task 1.
+- [x] **4c. TrashRangers' image — RESOLVED 2026-08-07.** James's call: "conceptual is more
+      correct." The artwork stays; the card and modal now label it Concept, so a mockup reads as
+      design work rather than a running app. Note the artwork still shows invented user data
+      (a named ranger, 47 bags, a 12-day streak) — coherent now that it's labelled, but if the
+      post-submission page gives TrashRangers more room, that's the thing to revisit.
 - [ ] **4d. Decide whether the OGO portal's placeholder explorer tiles get hidden before Sunday.**
       If the resume link leads a reviewer into `portal.ogo.elm.therain.website`, the dashboard's
       "All explorers" grid shows eight tiles — Plan, Forecast, Production forecast, Simulation,
@@ -139,7 +155,6 @@ system that states its error bars reads as more credible, not less.
 
 ## Open decisions — James's, not Claude's
 
-- Whether TrashRangers stays on the site at all, or is held until it's built
 - **Whether the OGO portal's eight placeholder explorer tiles get hidden before a reviewer can
   click them** — see task 4d. Time-sensitive if the resume links into the portal.
 - Whether dance and StorageCommander appear
