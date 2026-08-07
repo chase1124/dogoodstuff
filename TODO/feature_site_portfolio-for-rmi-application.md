@@ -3,7 +3,7 @@ title: Portfolio pages on dogoodstuff.org — linkable proof for the RMI applica
 type: feature
 component: frontend
 domain:
-status: not_started
+status: in_progress
 created: 2026-08-07
 completed:
 spawned_from: rmi-application/TODO/application.md
@@ -29,7 +29,8 @@ posts are deep-linked; the actual engineering is unreachable. This TODO makes th
 - `~/development/dogoodstuff/index.html` — the whole site; single static page, GitHub Pages via
   `CNAME`, remote `chase1124/dogoodstuff`
 - `rmi-application/TODO/application.md` — the parent; the resume link depends on this work
-- Live sites that already exist: `groceries.dogoodstuff.org` (GreenCart), `dance.dogoodstuff.org`
+- Live sites that already exist: `groceries.dogoodstuff.org` (GreenCart — **auth-walled**, see 4b),
+  `dance.dogoodstuff.org`
 - `screenshots/ogo/README.md` — provenance + per-file guide for the 29 OGO captures, and the two
   caveats that constrain what a caption may claim. 📖 Prereq for any task that writes site copy
   about OffGridOperator.
@@ -53,7 +54,9 @@ The site currently presents three projects at equal weight. That is not accurate
 
 - [ ] **1. Correct the three project cards on `index.html`** to match the table above. The critical
       one is TrashRangers: a concept presented alongside shipped software makes the shipped software
-      look like a concept too.
+      look like a concept too. 📖 Prereq: `screenshots/ogo/README.md` — its two caveats bound what
+      the OffGridOperator card may claim. 🛠 Skill: `/prototype` to preview the edited page on the
+      MacBook before pushing.
 - [ ] **2. Link GreenCart to `groceries.dogoodstuff.org`.**
 - [ ] **3. Describe OffGridOperator honestly** — running system, limited hardware configurations.
       The caveat is a credibility asset on a page aimed at energy readers, not a weakness.
@@ -132,6 +135,15 @@ things worth keeping: the portal's own clock was ~09:00, so every replay capture
 against **08-06, a completed day** — shooting "today" gives near-empty charts and would have
 undersold the system. And walking the portal surfaced the placeholder-explorers and
 curtailment-not-priced findings recorded above, which directly constrain tasks 1 and 3.
+
+Then went for GreenCart (task 4b) and hit an auth wall — the app is entirely behind
+email/password + passkey sign-in. Captured the login page only and stopped there rather than
+attempting to get around the auth. This is the one piece of the screenshot work that genuinely
+needs James, and it's small: reconnect the browser extension against an already-signed-in Chrome
+and the rest is a few minutes. Note the tooling asymmetry worth remembering — headless Chrome
+over CDP is strictly better than the extension for *public* pages (scriptable, repeatable,
+retina, no user in the loop), and strictly worse for *authenticated* ones (no session). Pick by
+whether the target needs a login.
 
 **2026-08-07** — Spun up from the RMI application session. The trigger: the resume's projects section
 describes real software with no links, while the blog gets four deep links. Established the project
