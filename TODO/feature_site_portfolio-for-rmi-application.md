@@ -30,6 +30,12 @@ posts are deep-linked; the actual engineering is unreachable. This TODO makes th
   `CNAME`, remote `chase1124/dogoodstuff`
 - `rmi-application/TODO/application.md` — the parent; the resume link depends on this work
 - Live sites that already exist: `groceries.dogoodstuff.org` (GreenCart), `dance.dogoodstuff.org`
+- `screenshots/ogo/README.md` — provenance + per-file guide for the 29 OGO captures, and the two
+  caveats that constrain what a caption may claim. 📖 Prereq for any task that writes site copy
+  about OffGridOperator.
+- The portal itself: `https://portal.ogo.elm.therain.website` — LAN-only, internal TLS cert (so
+  `curl` needs `-k`), no auth. Panels have stable `section` / `#id` hooks, which is what made the
+  scripted captures cheap.
 
 ## Ground truth on project status — established 2026-08-07
 
@@ -51,8 +57,16 @@ The site currently presents three projects at equal weight. That is not accurate
 - [ ] **2. Link GreenCart to `groceries.dogoodstuff.org`.**
 - [ ] **3. Describe OffGridOperator honestly** — running system, limited hardware configurations.
       The caveat is a credibility asset on a page aimed at energy readers, not a weakness.
-- [ ] **4. Screenshots.** One real screenshot per shipped project beats three paragraphs. The only
-      image on disk is `screenshots/trashrangers.png`, for the project that doesn't exist.
+- [x] **4a. OffGridOperator screenshots — DONE 2026-08-07.** 28 retina PNGs + one animated GIF in
+      `screenshots/ogo/`, captured from the live portal at `portal.ogo.elm.therain.website`.
+      Provenance, a per-file table, and two honesty caveats are in `screenshots/ogo/README.md`
+      — **read it before writing any caption.** Deliberately over-collected; pare down when the
+      page is built. Strongest four: `replay-day-animation.gif`,
+      `explorer-model-fidelity-full.png`, `replay-day-pnl.png`, `replay-shade-by-array.png`.
+- [ ] **4b. GreenCart screenshot(s)** — still none on disk. Same treatment from
+      `groceries.dogoodstuff.org`.
+- [ ] **4c. Decide TrashRangers' image.** `screenshots/trashrangers.png` is the only image the
+      site has ever had, for the only project that doesn't exist. Its fate follows task 1.
 - [ ] **5. Confirm the resume/letter link target** — one stable URL. Deep-link to the projects
       section if it has a stable anchor.
 - [ ] **6. Deploy and verify live** before the resume cites it. GitHub Pages; confirm the CNAME
@@ -68,6 +82,31 @@ The site currently presents three projects at equal weight. That is not accurate
 - [ ] **9. Decide dance + StorageCommander.** Both real. Both arguably off-message for an energy
       audience, but a portfolio that shows range is not automatically weaker. James's call.
 
+## What the OGO portal actually ships — established 2026-08-07 by walking it
+
+Relevant because task 3 says "describe OffGridOperator honestly", and the portal itself is the
+best evidence of what "honestly" means.
+
+**Real, running, screenshotted:** the live dashboard (battery + cell-level safety, inverter
+gauges, power quality, battery trajectory vs committed plan, net value vs utility), the array
+explorer (peak sun hours, performance index, model fidelity, capture heatmap), the array day
+replay (yard, actual-vs-POA, Day P&L, shade-by-array), the sessions explorer, grid-charge and
+EV-charging consoles.
+
+**Placeholders — `href="#"`, no page behind them.** The dashboard's "All explorers" grid lists
+Plan, Forecast, Production forecast, Simulation, Operational, Weather, and Circuit explorers, and
+the "Cost explorer →" link. None of these resolve. **The site copy must not imply they exist**,
+and a reviewer who clicks into the portal will see the same grid.
+
+**Curtailment detection is half-shipped.** Classifying each array-hour as full / shade /
+under-production / diffuse is live and visible. The *priced* curtailment ledger is not — the Day
+P&L panel says "Curtailment: none drawn — the priced curtailment ledger lands with B-R3", and the
+dashboard's "lost to curtailment" reads $0.00. Claim the detection, not the P&L attribution.
+
+**The product marks its own uncertainty.** Capture-ratio grades carry a `PROVISIONAL` badge
+because panel tilt/azimuth aren't measured at 46elm. Keep that visible — for an energy audience a
+system that states its error bars reads as more credible, not less.
+
 ## Open decisions — James's, not Claude's
 
 - Whether TrashRangers stays on the site at all, or is held until it's built
@@ -75,6 +114,14 @@ The site currently presents three projects at equal weight. That is not accurate
 - The email address the collaborator asks point to
 
 ## Session Notes
+
+**2026-08-07 (second session)** — Collected the OffGridOperator screenshots (task 4a). Drove the
+live portal with headless Chrome over CDP; the Claude-in-Chrome extension was disconnected, but
+Chrome + Node were both present, so this needed no user intervention and no npm installs. Two
+things worth keeping: the portal's own clock was ~09:00, so every replay capture was re-shot
+against **08-06, a completed day** — shooting "today" gives near-empty charts and would have
+undersold the system. And walking the portal surfaced the placeholder-explorers and
+curtailment-not-priced findings recorded above, which directly constrain tasks 1 and 3.
 
 **2026-08-07** — Spun up from the RMI application session. The trigger: the resume's projects section
 describes real software with no links, while the blog gets four deep links. Established the project
