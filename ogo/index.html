@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OffGridOperator — Do Good Stuff</title>
-<meta name="description" content="Solar array management that computes what the panels should have made, finds out why they didn't, and settles the day as a profit and loss statement. Running in production on a 20 kW / 60 kWh off-grid system.">
+<title>OffGridOperator — solar that runs itself</title>
+<meta name="description" content="OffGridOperator schedules your loads, drives your charging, and tells you what your panels should have made. A full controller for off-grid and hybrid solar, built on Home Assistant.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
@@ -19,7 +19,6 @@
     --sage: #6B8C6B;
     --sky: #A8C4B8;
     --dusk: #4A6B7A;
-    --live: #7fc99a;
   }
 
   html { scroll-behavior: smooth; }
@@ -33,7 +32,6 @@
     overflow-x: hidden;
   }
 
-  /* Grain overlay — same treatment as the main site, so this reads as the same publication. */
   body::before {
     content: '';
     position: fixed;
@@ -46,16 +44,8 @@
 
   a { color: inherit; }
 
-  .eyebrow {
-    font-size: 0.8rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--terra);
-  }
-
-  /* ---- BACK BAR ---- */
   .backbar {
-    padding: 1.75rem 4rem;
+    padding: 1.5rem 4rem;
     border-bottom: 1px solid rgba(193,122,74,0.16);
   }
 
@@ -70,57 +60,40 @@
 
   .backbar a:hover { color: var(--terra); }
 
-  /* ---- HERO ---- */
-  .masthead {
-    padding: 6rem 4rem 3rem;
-  }
-
+  /* ---- MASTHEAD ---- */
+  .masthead { padding: 5rem 4rem 3rem; }
   .masthead-inner { max-width: 900px; margin: 0 auto; }
 
-  .status-live {
-    display: inline-block;
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
+  .kicker {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    padding: 3px 12px;
-    border-radius: 20px;
-    border: 1px solid rgba(107,140,107,0.45);
-    background: rgba(107,140,107,0.1);
-    color: #4a7350;
-    margin-bottom: 1.75rem;
-  }
-
-  .status-live::before {
-    content: '';
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: #4a7350;
-    margin-right: 7px;
-    vertical-align: middle;
+    color: var(--terra);
+    margin-bottom: 1.5rem;
   }
 
   h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+    font-size: clamp(2.7rem, 6.4vw, 4.5rem);
     font-weight: 700;
     line-height: 1.05;
     margin-bottom: 1.5rem;
   }
 
+  h1 em { font-style: italic; color: var(--clay); }
+
   .standfirst {
     font-size: 1.35rem;
     font-weight: 300;
     line-height: 1.55;
-    max-width: 42ch;
+    max-width: 46ch;
     color: var(--clay);
   }
 
-  .standfirst em { font-style: italic; color: var(--soil); }
+  .standfirst strong { font-weight: 400; color: var(--soil); }
 
-  /* ---- SPEC STRIP ---- */
-  .spec {
+  /* ---- CAPABILITY STRIP ---- */
+  .caps {
     max-width: 900px;
     margin: 3.5rem auto 0;
     display: grid;
@@ -129,207 +102,286 @@
     border-bottom: 1px solid var(--wheat);
   }
 
-  .spec div {
-    padding: 1.5rem 1.25rem;
-  }
+  .caps div { padding: 1.5rem 1.25rem; }
+  .caps div + div { border-left: 1px solid var(--wheat); }
 
-  .spec div + div { border-left: 1px solid var(--wheat); }
-
-  .spec dt {
-    font-size: 0.7rem;
+  .caps dt {
+    font-size: 0.68rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--terra);
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.45rem;
   }
 
-  .spec dd {
+  .caps dd {
     font-family: 'Playfair Display', serif;
-    font-size: 1.3rem;
-    line-height: 1.25;
+    font-size: 1.15rem;
+    line-height: 1.3;
   }
 
-  .spec dd small {
+  .caps dd small {
     display: block;
     font-family: 'Crimson Pro', serif;
     font-size: 0.85rem;
     font-weight: 300;
     color: var(--clay);
-    line-height: 1.4;
-    margin-top: 0.2rem;
+    line-height: 1.45;
+    margin-top: 0.25rem;
   }
 
-  /* ---- SECTIONS ---- */
-  section { padding: 5.5rem 4rem; }
-
-  .section-inner { max-width: 900px; margin: 0 auto; }
-
-  .lede {
+  /* ---- PITCH ---- */
+  .pitch {
     background: var(--soil);
     color: var(--cream);
+    padding: 5rem 4rem;
   }
 
-  .lede h2 {
+  .pitch-inner { max-width: 900px; margin: 0 auto; }
+
+  .pitch h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
+    font-size: 2.3rem;
     font-weight: 400;
-    line-height: 1.2;
+    line-height: 1.25;
     color: var(--cream);
-    margin-bottom: 2.5rem;
-    max-width: 20ch;
+    max-width: 24ch;
+    margin-bottom: 1.5rem;
   }
 
-  .lede h2 em { color: var(--wheat); font-style: italic; }
+  .pitch h2 em { color: var(--wheat); font-style: italic; }
 
-  .steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2.5rem 3rem;
-  }
-
-  .step-n {
-    font-family: 'Playfair Display', serif;
-    font-size: 0.95rem;
-    color: var(--terra);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
-  }
-
-  .step h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--wheat);
-    margin-bottom: 0.6rem;
-  }
-
-  .step p {
-    font-size: 1rem;
+  .pitch p {
     font-weight: 300;
-    color: rgba(245,237,216,0.78);
-    line-height: 1.65;
+    color: rgba(245,237,216,0.8);
+    max-width: 60ch;
   }
 
-  /* ---- FIGURES ---- */
-  .evidence-header { margin-bottom: 4rem; }
+  /* ---- TOUR ---- */
+  .tour { padding: 5rem 4rem; }
+  .tour-inner { max-width: 1180px; margin: 0 auto; }
 
-  .evidence-header h2 {
+  .tour-head {
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .tour-head h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: 400;
-    margin: 1rem 0 1.25rem;
+    margin: 0.8rem 0 0.9rem;
   }
 
-  .evidence-header p {
+  .tour-head p {
     font-weight: 300;
     color: var(--clay);
     max-width: 58ch;
   }
 
-  figure { margin-bottom: 5rem; }
+  /* The tab strip is the navigation: a visitor picks what they care about instead of
+     scrolling past everything. It scrolls horizontally on narrow screens rather than wrapping
+     into a block that pushes the viewer off-screen. */
+  .tabs {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.6rem;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
 
-  figure:last-of-type { margin-bottom: 0; }
-
-  .fig-label {
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
+  .tab {
+    flex: 0 0 auto;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--terra);
-    margin-bottom: 0.6rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--wheat);
+    border-radius: 40px;
+    background: transparent;
+    color: var(--clay);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
 
-  figure h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-    max-width: 30ch;
-  }
+  .tab:hover { border-color: var(--terra); color: var(--terra); }
 
-  /* The dark frame does two jobs: it separates a light-UI screenshot from a cream page,
-     and it signals "this is a running product", not a diagram someone drew. */
-  .shot {
-    display: block;
-    border-radius: 6px;
-    overflow: hidden;
+  .tab[aria-selected="true"] {
     background: var(--soil);
-    padding: 10px;
-    box-shadow: 0 18px 50px rgba(44,26,14,0.20);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    border-color: var(--soil);
+    color: var(--cream);
   }
 
-  .shot:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 24px 62px rgba(44,26,14,0.28);
+  .tab .tab-n {
+    font-size: 0.7rem;
+    opacity: 0.55;
+    margin-right: 0.45rem;
   }
 
-  .shot img {
+  .viewer {
+    border: 1px solid var(--wheat);
+    border-radius: 6px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .pane { display: none; }
+  .pane.active { display: block; animation: paneIn 0.45s ease both; }
+
+  @keyframes paneIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .pane-stage {
+    background: var(--soil);
+    padding: 1.4rem;
+    display: block;
+  }
+
+  .pane-stage img {
     width: 100%;
     height: auto;
     display: block;
     border-radius: 3px;
   }
 
-  figcaption {
+  .pane-body {
+    padding: 2rem 2.25rem 2.25rem;
+    display: grid;
+    grid-template-columns: 1fr 1.35fr;
+    gap: 2.5rem;
+  }
+
+  .pane-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+    line-height: 1.28;
+  }
+
+  .pane-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 0.6rem;
+  }
+
+  .pane-body p {
     font-size: 1.02rem;
     font-weight: 300;
-    line-height: 1.65;
+    line-height: 1.68;
     color: var(--soil);
-    margin-top: 1.25rem;
-    max-width: 62ch;
   }
 
-  figcaption strong { font-weight: 400; color: var(--clay); }
+  .pane-body p + p { margin-top: 0.9rem; }
 
-  .fig-note {
-    display: block;
-    font-size: 0.85rem;
+  .pane-body strong { font-weight: 400; color: var(--clay); }
+
+  .pane-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.4rem;
+  }
+
+  .pane-nav button {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--wheat);
+    border-radius: 40px;
+    background: transparent;
     color: var(--clay);
-    font-style: italic;
-    margin-top: 0.6rem;
+    cursor: pointer;
+    transition: border-color 0.25s ease, color 0.25s ease;
   }
 
-  /* ---- LIMITS ---- */
-  .limits { background: var(--cream); border-top: 1px solid var(--wheat); }
+  .pane-nav button:hover:not(:disabled) { border-color: var(--terra); color: var(--terra); }
+  .pane-nav button:disabled { opacity: 0.32; cursor: default; }
 
-  .limits h2 {
+  .pane-count {
+    font-size: 0.8rem;
+    color: var(--clay);
+    letter-spacing: 0.08em;
+  }
+
+  .full-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--terra);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(193,122,74,0.4);
+    padding-bottom: 1px;
+  }
+
+  /* ---- ROADMAP ---- */
+  .roadmap {
+    background: var(--cream);
+    border-top: 1px solid var(--wheat);
+    padding: 5rem 4rem;
+  }
+
+  .roadmap-inner { max-width: 900px; margin: 0 auto; }
+
+  .roadmap h2 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
+    font-size: 2.1rem;
     font-weight: 400;
-    margin: 1rem 0 1rem;
+    margin: 0.8rem 0 1rem;
   }
 
-  .limits-intro {
+  .roadmap-intro {
     font-weight: 300;
     color: var(--clay);
-    max-width: 58ch;
-    margin-bottom: 3rem;
+    max-width: 56ch;
+    margin-bottom: 2.75rem;
   }
 
-  .limits-grid {
+  .roadmap-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     border: 1px solid var(--wheat);
   }
 
-  .limit { padding: 2.25rem; }
+  .rm { padding: 2rem 1.75rem; }
+  .rm + .rm { border-left: 1px solid var(--wheat); }
 
-  .limits-grid .limit:nth-child(odd) { border-right: 1px solid var(--wheat); }
-  .limits-grid .limit:nth-child(-n+2) { border-bottom: 1px solid var(--wheat); }
-
-  .limit h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    font-weight: 400;
-    margin-bottom: 0.7rem;
+  .rm-chip {
+    display: inline-block;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sage);
+    border: 1px solid rgba(107,140,107,0.4);
+    background: rgba(107,140,107,0.08);
+    border-radius: 20px;
+    padding: 2px 10px;
+    margin-bottom: 0.9rem;
   }
 
-  .limit p {
-    font-size: 0.95rem;
+  .rm h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.6rem;
+  }
+
+  .rm p {
+    font-size: 0.93rem;
     font-weight: 300;
-    line-height: 1.65;
+    line-height: 1.6;
     color: var(--clay);
   }
 
@@ -337,7 +389,7 @@
   footer {
     background: var(--soil);
     color: rgba(245,237,216,0.62);
-    padding: 4rem;
+    padding: 3.5rem 4rem;
     text-align: center;
     font-size: 0.9rem;
     font-weight: 300;
@@ -350,34 +402,30 @@
     padding-bottom: 1px;
   }
 
-  footer p + p { margin-top: 1rem; }
+  footer p + p { margin-top: 0.9rem; }
 
-  /* ---- REVEAL ---- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     body { font-size: 18px; }
-    .backbar, .masthead, section, footer { padding-left: 1.75rem; padding-right: 1.75rem; }
-    .masthead { padding-top: 3.5rem; }
-    section { padding-top: 4rem; padding-bottom: 4rem; }
-    .spec { grid-template-columns: 1fr 1fr; }
-    .spec div:nth-child(3) { border-left: none; }
-    .spec div:nth-child(-n+2) { border-bottom: 1px solid var(--wheat); }
-    .steps { grid-template-columns: 1fr; gap: 2rem; }
-    .limits-grid { grid-template-columns: 1fr; }
-    .limits-grid .limit:nth-child(odd) { border-right: none; }
-    .limits-grid .limit:not(:last-child) { border-bottom: 1px solid var(--wheat); }
-    figure h3 { font-size: 1.35rem; }
+    .backbar, .masthead, .pitch, .tour, .roadmap, footer {
+      padding-left: 1.5rem; padding-right: 1.5rem;
+    }
+    .masthead { padding-top: 3rem; }
+    .pitch, .tour, .roadmap { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .caps { grid-template-columns: 1fr 1fr; }
+    .caps div:nth-child(3) { border-left: none; }
+    .caps div:nth-child(-n+2) { border-bottom: 1px solid var(--wheat); }
+    .pane-body { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.5rem; }
+    .pane-stage { padding: 0.75rem; }
+    .roadmap-grid { grid-template-columns: 1fr; }
+    .rm + .rm { border-left: none; border-top: 1px solid var(--wheat); }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
+    .pane.active { animation: none; }
     html { scroll-behavior: auto; }
   }
 </style>
@@ -390,224 +438,331 @@
 
 <header class="masthead">
   <div class="masthead-inner">
-    <span class="status-live">In production</span>
-    <h1>OffGridOperator</h1>
+    <p class="kicker">OffGridOperator</p>
+    <h1>Solar software that actually <em>runs</em> the system.</h1>
     <p class="standfirst">
-      Most solar software tells you what the panels made. This one computes what they
-      <em>should</em> have made — from solar geometry and the measured sky — then finds out
-      why they didn't, and settles the day in dollars.
+      Most solar tools are dashboards — they show you a number and leave the decisions to you.
+      OffGridOperator <strong>schedules your loads, drives your charging, and holds your battery to
+      a plan</strong> — then tells you what your panels should have made, and what it cost you when
+      they didn't.
     </p>
   </div>
-  <dl class="spec">
+  <dl class="caps">
     <div>
-      <dt>Running on</dt>
-      <dd>20 kW<small>60 kWh of battery, off-grid</small></dd>
+      <dt>Controls</dt>
+      <dd>Loads &amp; charging<small>EV charging, dehumidifiers, grid charge — scheduled or on demand</small></dd>
     </div>
     <div>
-      <dt>Arrays modelled</dt>
-      <dd>7<small>DC strings and per-panel microinverters</small></dd>
+      <dt>Plans</dt>
+      <dd>Against the battery<small>loads committed to a trajectory, today and tomorrow</small></dd>
     </div>
     <div>
-      <dt>Resolution</dt>
-      <dd>Per array-hour<small>every hour classified, every day priced</small></dd>
+      <dt>Models</dt>
+      <dd>Expected vs actual<small>plane-of-array physics from measured irradiance</small></dd>
     </div>
     <div>
       <dt>Built on</dt>
-      <dd>Home&nbsp;Assistant<small>Python, TimescaleDB</small></dd>
+      <dd>Home&nbsp;Assistant<small>Python · TimescaleDB · runs on your hardware</small></dd>
     </div>
   </dl>
 </header>
 
-<section class="lede">
-  <div class="section-inner">
-    <h2 class="reveal">A number is not an answer. <em>“Check the string on that array”</em> is an answer.</h2>
-    <div class="steps reveal">
-      <div class="step">
-        <p class="step-n">01</p>
-        <h3>It knows what the sky did</h3>
-        <p>Measured global irradiance, cloud cover and air temperature, logged alongside every
-        array's output. The weather is data, not an excuse.</p>
+<section class="pitch">
+  <div class="pitch-inner">
+    <h2 class="reveal">A dashboard tells you the battery is at 28%. <em>A controller does something about it.</em></h2>
+    <p class="reveal">
+      Surplus solar should charge the car. The dehumidifiers should run when there is power to spare
+      and stop when there isn't. The battery should never quietly walk below what tonight needs. Those
+      are decisions, they happen every few minutes, and nobody wants to make them by hand.
+      OffGridOperator makes them — and shows its work.
+    </p>
+  </div>
+</section>
+
+<section class="tour">
+  <div class="tour-inner">
+    <div class="tour-head reveal">
+      <p class="kicker">The product, screen by screen</p>
+      <h2>Take the tour</h2>
+      <p>Seven screens from a live production install — real hardware, real weather, real money.
+      Pick whichever part you care about.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Product tour">
+      <button class="tab" role="tab" aria-selected="true"  aria-controls="pane-0" id="tab-0"><span class="tab-n">01</span>Control</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-1" id="tab-1"><span class="tab-n">02</span>Power</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-2" id="tab-2"><span class="tab-n">03</span>Schedule</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-3" id="tab-3"><span class="tab-n">04</span>Sessions</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-4" id="tab-4"><span class="tab-n">05</span>Replay</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-5" id="tab-5"><span class="tab-n">06</span>Model</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-6" id="tab-6"><span class="tab-n">07</span>Settle</button>
+    </div>
+
+    <div class="viewer">
+
+      <!-- 01 CONTROL -->
+      <div class="pane active" id="pane-0" role="tabpanel" aria-labelledby="tab-0">
+        <a class="pane-stage" href="../screenshots/ogo/dashboard-smart-loads.png">
+          <img src="../screenshots/ogo/dashboard-smart-loads.png"
+               alt="Smart loads and sessions panel: a car charging card with per-vehicle profiles and Charge buttons, and a dehumidifier card with a humidity target slider and Run now buttons for three units."
+               width="4656" height="1992">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">01 · Control</p>
+            <h3>Your loads, with the rules you'd have applied anyway</h3>
+          </div>
+          <div>
+            <p>Each load carries a policy rather than a switch. The car is set to
+            <strong>surplus only, solar only</strong>, with a target it works toward; the
+            dehumidifiers run against a humidity goal instead of a timer. When you want to override,
+            there is a button — <strong>Charge</strong>, <strong>Run now</strong> — and a settings
+            gear per device.</p>
+            <p>This is the part a dashboard can't do. The system isn't reporting that your car
+            didn't charge; it's the thing that decides when it does.</p>
+            <a class="full-link" href="../screenshots/ogo/dashboard-smart-loads.png">View full size →</a>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <p class="step-n">02</p>
-        <h3>It knows what the panels should have made</h3>
-        <p>Plane-of-array expectation computed from solar geometry and the <em>measured</em>
-        irradiance — so a shortfall is a real capture loss, never “it was cloudy”.</p>
+
+      <!-- 02 POWER -->
+      <div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1">
+        <a class="pane-stage" href="../screenshots/ogo/dashboard-state-of-power.png">
+          <img src="../screenshots/ogo/dashboard-state-of-power.png" loading="lazy"
+               alt="State of power panel: solar, grid, battery and AC load tiles with flow arrows, an inverter card with analog gauges for AC amps, AC output, frequency and inverter temperature, and a power quality card showing real, apparent and reactive power with a power factor bar."
+               width="4656" height="1760">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">02 · Power</p>
+            <h3>Every electrical fact on one screen, including the awkward ones</h3>
+          </div>
+          <div>
+            <p>Solar in, grid in, battery state and measured house load, with the flow between them.
+            The inverter cluster reads AC amps per leg, output, frequency and temperature, and the
+            AC-in limit that caps how hard grid-charging is allowed to pull.</p>
+            <p>Then the panel most tools skip: <strong>power quality</strong>. Real watts against
+            apparent VA and reactive VAR, with the resulting power factor. That is the difference
+            between the power you're paying for and the power doing work — and on an off-grid system
+            it is the difference between an inverter that copes and one that doesn't.</p>
+            <a class="full-link" href="../screenshots/ogo/dashboard-state-of-power.png">View full size →</a>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <p class="step-n">03</p>
-        <h3>It knows why they didn't</h3>
-        <p>Each array-hour is classified: full sun, shaded, under-producing, or diffuse-limited.
-        Shade you can plan around. A fault you fix. Diffuse light you accept.</p>
+
+      <!-- 03 SCHEDULE -->
+      <div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2">
+        <a class="pane-stage" href="../screenshots/ogo/dashboard-battery-trajectory.png">
+          <img src="../screenshots/ogo/dashboard-battery-trajectory.png" loading="lazy"
+               alt="Battery trajectory and committed plan: a projected state-of-charge curve above a minimum-required line across the day, with a legend for scheduled car charge, dehumidifier and desktop compute loads, and Today and Tomorrow toggles."
+               width="4656" height="1484">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">03 · Schedule</p>
+            <h3>The plan is a commitment, not a suggestion</h3>
+          </div>
+          <div>
+            <p>The scheduler projects the battery across the day and places the flexible loads —
+            car charging, dehumidifiers, compute — where the energy will actually be. The green
+            curve is where the battery is heading. <strong>The red line is the floor it is not
+            allowed to cross.</strong></p>
+            <p>Everything above that floor is yours to spend, which is exactly the calculation you
+            would otherwise be doing in your head at breakfast, with worse information. Flip to
+            <strong>Tomorrow</strong> and it has already worked out the same answer for a day that
+            hasn't happened.</p>
+            <a class="full-link" href="../screenshots/ogo/dashboard-battery-trajectory.png">View full size →</a>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <p class="step-n">04</p>
-        <h3>It prices the gap</h3>
-        <p>The day settles as a profit-and-loss statement — what solar earned, what it left on
-        the table, and which array lost it to what.</p>
+
+      <!-- 04 SESSIONS -->
+      <div class="pane" id="pane-3" role="tabpanel" aria-labelledby="tab-3">
+        <a class="pane-stage" href="../screenshots/ogo/sessions-timeline-aug4.png">
+          <img src="../screenshots/ogo/sessions-timeline-aug4.png" loading="lazy"
+               alt="Sessions timeline with toggleable layers for session ribbons, watts, state strip and humidity. Each load has a row with energy and cost; a grid-charge session shows a ribbon above a detailed power trace."
+               width="4656" height="2444">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">04 · Sessions</p>
+            <h3>Every run recorded, profiled and priced</h3>
+          </div>
+          <div>
+            <p>When a load runs, it becomes a session: how long, how many kWh, what it was worth.
+            The grid-charge trace here is the real power profile of a single session —
+            <strong>4.52 kWh drawn, costed at −$1.47</strong> — not a monthly total you have to take
+            on faith.</p>
+            <p>The layers stack: session ribbons over the raw watt trace over the device's own
+            on/idle/off state, with humidity underneath for the loads that answer to it. Watts
+            outside a ribbon are flagged as an untracked run — <strong>the system audits its own
+            bookkeeping</strong> rather than assuming it caught everything.</p>
+            <a class="full-link" href="../screenshots/ogo/sessions-timeline-aug4.png">View full size →</a>
+          </div>
+        </div>
       </div>
+
+      <!-- 05 REPLAY -->
+      <div class="pane" id="pane-4" role="tabpanel" aria-labelledby="tab-4">
+        <a class="pane-stage" href="../screenshots/ogo/replay-day-animation.gif">
+          <img src="../screenshots/ogo/replay-day-animation.gif" loading="lazy"
+               alt="Animated day replay: a playhead sweeps a timeline from morning to night while each array's panel fill, hour classification badge and the site output update in step."
+               width="1100" height="670">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">05 · Replay</p>
+            <h3>Scrub back through any day and watch it happen</h3>
+          </div>
+          <div>
+            <p>Pick a day and play it. Panel fill tracks each array against its nameplate, the sky
+            panel shows the irradiance, cloud and temperature it was working with, and every array
+            carries a live badge for the hour it's in — full sun, shaded, under-producing, or
+            diffuse-limited.</p>
+            <p><strong>Mid-afternoon, two arrays flip to shaded while a third stays in full sun.</strong>
+            Same sky, different positions. That is a shade pattern you can plan around, and you can
+            see it arrive rather than infer it from a monthly total.</p>
+            <a class="full-link" href="../screenshots/ogo/replay-day-animation.gif">View full size →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 MODEL -->
+      <div class="pane" id="pane-5" role="tabpanel" aria-labelledby="tab-5">
+        <a class="pane-stage" href="../screenshots/ogo/explorer-model-fidelity-full.png">
+          <img src="../screenshots/ogo/explorer-model-fidelity-full.png" loading="lazy"
+               alt="Model fidelity screen: capture-ratio tiles per array, an expected-versus-actual chart where solid lines are actual output and dashed lines are the physical expectation across a week, and a per-array per-day capture ratio grid."
+               width="6112" height="3520">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">06 · Model</p>
+            <h3>What your panels <em>should</em> have made — from physics, not from last Tuesday</h3>
+          </div>
+          <div>
+            <p><strong>Solid lines are what each array made. Dashed is what it should have made.</strong>
+            The expectation is plane-of-array irradiance computed from the <em>measured</em> sky and
+            each array's geometry — so a gap is a real capture loss, and "it was cloudy" is already
+            accounted for.</p>
+            <p>The grid underneath is capture ratio per array, per day. One bad afternoon is weather.
+            A row that stays low all week is hardware, and it's the kind of thing that otherwise goes
+            unnoticed for a season.</p>
+            <a class="full-link" href="../screenshots/ogo/explorer-model-fidelity-full.png">View full size →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 SETTLE -->
+      <div class="pane" id="pane-6" role="tabpanel" aria-labelledby="tab-6">
+        <a class="pane-stage" href="../screenshots/ogo/replay-day-pnl.png">
+          <img src="../screenshots/ogo/replay-day-pnl.png" loading="lazy"
+               alt="Day profit and loss: one bar per array showing expected revenue split into earned, under-production, shade and diffuse light, with a site total summarising energy made, value captured and value left on the table."
+               width="4656" height="2144">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">07 · Settle</p>
+            <h3>The day, in dollars, split by cause</h3>
+          </div>
+          <div>
+            <p>Every day closes as a profit-and-loss statement. Each bar is one array's expected
+            revenue, divided into what it actually earned and what it lost — and to <em>what</em>:
+            shade, under-production, or simply diffuse light that was never there to capture.</p>
+            <p>That split is what makes it actionable. Losses to a shade window are worth a
+            conversation about a tree. Losses to a grey sky are worth nothing at all, and knowing
+            the difference is the point.</p>
+            <a class="full-link" href="../screenshots/ogo/replay-day-pnl.png">View full size →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pane-nav" style="padding: 0 2.25rem 2rem;">
+        <button id="prev" type="button">← Previous</button>
+        <span class="pane-count"><span id="cur">1</span> / 7</span>
+        <button id="next" type="button">Next →</button>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section>
-  <div class="section-inner">
-    <div class="evidence-header reveal">
-      <p class="eyebrow">From the running system</p>
-      <h2>Five screens from a production week</h2>
-      <p>Captured from the live instance on 7 August 2026. Nothing here is a mockup, and nothing
-      has been cleaned up for display — including the parts where the system marks its own
-      uncertainty. Click any image for full resolution.</p>
-    </div>
-
-    <figure class="reveal">
-      <p class="fig-label">Figure 01 · Day replay</p>
-      <h3>Watching shade arrive, array by array</h3>
-      <a class="shot" href="../screenshots/ogo/replay-day-animation.gif">
-        <img src="../screenshots/ogo/replay-day-animation.gif"
-             alt="Animated replay of 6 August 2026 from 8 AM to 10 PM: a playhead sweeps a timeline while each array's panel fill, hour-class badge and the site output update live."
-             width="1100" height="670">
-      </a>
-      <figcaption>
-        6 August 2026 replayed from 8 AM to 10 PM. Panel fill tracks power against nameplate, and
-        each array carries a live badge for the hour it is in. <strong>Around 2:53 PM two arrays
-        flip to <em>shaded</em> while a third stays in full sun</strong> — the same sky, different
-        positions in the yard. That distinction is the whole point: it is what separates a problem
-        worth fixing from a problem worth ignoring.
-      </figcaption>
-    </figure>
-
-    <figure class="reveal">
-      <p class="fig-label">Figure 02 · Live state</p>
-      <h3>The yard at 13:05, against the sky it was given</h3>
-      <a class="shot" href="../screenshots/ogo/replay-yard-midday.png">
-        <img src="../screenshots/ogo/replay-yard-midday.png" loading="lazy"
-             alt="The yard panel at 13:05 — four arrays with nameplate, ceiling, current output and percentage against expectation, beside a sky panel reading 501 watts per square metre GHI, 39 percent cloud cover and 30 degrees C air temperature, with site output 4.20 kW."
-             width="2328" height="866">
-      </a>
-      <figcaption>
-        Midday on 6 August. The sky is measured, not forecast: <strong>501 W/m² of global
-        irradiance, 39% cloud, 30 °C air</strong>, with the site making 4.20 kW. Each array reports
-        its nameplate, its realistic ceiling, and where it sits against expectation right now —
-        one array at 32% of expected while its neighbours run above theirs. The panel also notes
-        that cells run hotter than air under strong sun, which costs efficiency above 25 °C.
-      </figcaption>
-    </figure>
-
-    <figure class="reveal">
-      <p class="fig-label">Figure 03 · Model fidelity</p>
-      <h3>Seven arrays, eight days, expectation drawn against reality</h3>
-      <a class="shot" href="../screenshots/ogo/explorer-model-fidelity-full.png">
-        <img src="../screenshots/ogo/explorer-model-fidelity-full.png" loading="lazy"
-             alt="Model fidelity screen: capture ratio tiles for seven arrays ranging 33 to 60 percent, each marked provisional; an expected-versus-actual chart where solid lines are actual output and dashed lines are physical expectation across Jul 31 to Aug 7; and a per-array per-day capture ratio grid."
-             width="6112" height="3520">
-      </a>
-      <figcaption>
-        The window is 31 July to 7 August. <strong>Solid lines are what each array made; dashed is
-        what the physics says it should have made.</strong> The gap between them is the product.
-        Capture ratios run from 33% to 60% across seven arrays, and the daily grid underneath spots
-        the shortfalls that persist day after day — a bad afternoon is weather, a bad week is
-        hardware.
-        <span class="fig-note">Every grade on this screen is stamped PROVISIONAL by the system
-        itself, because panel tilt and azimuth have not been surveyed at this site and the
-        expectation falls back to a flat-plane estimate. Stating the error bar is part of the
-        product, not an omission from it.</span>
-      </figcaption>
-    </figure>
-
-    <figure class="reveal">
-      <p class="fig-label">Figure 04 · Diagnosis</p>
-      <h3>“Faulty array suspected” — written by the code, not by me</h3>
-      <a class="shot" href="../screenshots/ogo/replay-shade-by-array.png">
-        <img src="../screenshots/ogo/replay-shade-by-array.png" loading="lazy"
-             alt="Shade-by-array panel: six array cards each with an hourly strip coloured full, shaded or under-production, and a generated callout. One array is flagged faulty array suspected, peaking at 72 percent of expected all day."
-             width="4656" height="2880">
-      </a>
-      <figcaption>
-        A typical day per array, built from the last fourteen days of clear hours. One array is
-        flagged <strong>“Faulty array suspected — peaks 72% of expected all day”</strong>: it is
-        suppressed in <em>every</em> clear hour, which shade cannot explain, so the callout points
-        at the string, the MPPT or the calibration. Another is told it is under-producing in one of
-        its six clear hours and is worth a look before it spreads. Two are told there is nothing to
-        do.
-        <span class="fig-note">The callouts are generated in code from each array's capability
-        curve and recompute on new data — they are never hand-written. Hours the grader could not
-        read are left blank rather than guessed, which is why some strips start late.</span>
-      </figcaption>
-    </figure>
-
-    <figure class="reveal">
-      <p class="fig-label">Figure 05 · The day, settled</p>
-      <h3>$4.80 earned, $4.83 left on the table</h3>
-      <a class="shot" href="../screenshots/ogo/replay-day-pnl.png">
-        <img src="../screenshots/ogo/replay-day-pnl.png" loading="lazy"
-             alt="Day profit and loss for 6 August 2026: per-array bars split into earned, under-production, shade and diffuse, with a site total of 14.6 kWh made, $4.80 captured and $4.83 left on the table — 50 percent of the day's potential."
-             width="4656" height="2144">
-      </a>
-      <figcaption>
-        6 August, closed out. The site made 14.6 kWh worth <strong>$4.80, and left $4.83 on the
-        table — 50% of the day's available potential.</strong> Each bar is one array's expected
-        revenue, split into what it earned and what it lost to shade, to under-production, or to
-        diffuse light. That split is the actionable part: $0.40 of real shade on one array with a
-        sun-window to check, against another whose losses are sky-limited and simply not worth
-        chasing.
-      </figcaption>
-    </figure>
-
-  </div>
-</section>
-
-<section class="limits">
-  <div class="section-inner">
+<section class="roadmap">
+  <div class="roadmap-inner">
     <div class="reveal">
-      <p class="eyebrow">Straight answers</p>
-      <h2>What it doesn't do yet</h2>
-      <p class="limits-intro">A system that hides its limits is asking you to find them yourself.
-      These are stated in the product too — the screens above show them.</p>
+      <p class="kicker">In development</p>
+      <h2>Shipping next</h2>
+      <p class="roadmap-intro">The system is honest about its own confidence — where a number is an
+      estimate, it says so on the screen. These are the pieces that turn those estimates into
+      certainties.</p>
     </div>
-    <div class="limits-grid reveal">
-      <div class="limit">
-        <h3>Curtailment is detected, not priced</h3>
-        <p>Classifying each array-hour as full, shaded, under-producing or diffuse ships and is
-        visible above. The <em>priced</em> curtailment ledger does not — the P&amp;L panel says so
-        itself, and reads $0.00 drawn. The detection is real; the money attribution for curtailment
-        is still to come.</p>
+    <div class="roadmap-grid reveal">
+      <div class="rm">
+        <span class="rm-chip">Next</span>
+        <h3>Priced curtailment</h3>
+        <p>Curtailment is already detected and classified hour by hour. The ledger that puts a dollar
+        figure on it — what a full battery on a sunny afternoon actually cost you — lands next.</p>
       </div>
-      <div class="limit">
-        <h3>The capture grades are provisional</h3>
-        <p>Panel tilt and azimuth have not been surveyed at this site, so the expectation uses a
-        flat-plane estimate and every grade is badged accordingly. The ranking between arrays holds;
-        the absolute percentages will move when the angles land.</p>
+      <div class="rm">
+        <span class="rm-chip">Next</span>
+        <h3>Surveyed array geometry</h3>
+        <p>Where panel tilt and azimuth have been measured, expectations are exact. Where they
+        haven't, the system falls back to an estimate and flags the grade as provisional rather than
+        pretending. Guided setup closes the gap.</p>
       </div>
-      <div class="limit">
-        <h3>It runs on limited hardware</h3>
-        <p>One production site, one set of inverters, charge controllers and battery management.
-        The modelling is general; the integrations are not. Extending it to other equipment is the
-        obvious next job.</p>
-      </div>
-      <div class="limit">
-        <h3>The portal is not public</h3>
-        <p>It runs on the LAN of the house it operates, without an authentication layer, because
-        so far it has had exactly one user. That is why this page exists — screenshots of a real
-        system rather than a login you cannot get past.</p>
+      <div class="rm">
+        <span class="rm-chip">Next</span>
+        <h3>Wider hardware support</h3>
+        <p>Running today across multiple sites on comparable inverter, charge-controller and battery
+        stacks. The modelling is general; each new equipment family needs its integration.
+        <strong>If you'd like yours supported, get in touch.</strong></p>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <p>OffGridOperator is built and run by James Chase at <a href="/">Do Good Stuff</a>.</p>
-  <p>Screens captured 7 August 2026 from the live production instance.</p>
+  <p>OffGridOperator is built by James Chase at <a href="/">Do Good Stuff</a>.</p>
+  <p>Every screen on this page is real data from a live production install.</p>
 </footer>
 
 <script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  (function () {
+    const tabs  = Array.from(document.querySelectorAll('.tab'));
+    const panes = Array.from(document.querySelectorAll('.pane'));
+    const prev  = document.getElementById('prev');
+    const next  = document.getElementById('next');
+    const cur   = document.getElementById('cur');
+    let i = 0;
 
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    function show(n) {
+      i = Math.max(0, Math.min(panes.length - 1, n));
+      tabs.forEach((t, k) => t.setAttribute('aria-selected', String(k === i)));
+      panes.forEach((p, k) => p.classList.toggle('active', k === i));
+      cur.textContent = i + 1;
+      prev.disabled = i === 0;
+      next.disabled = i === panes.length - 1;
+      tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+    }
+
+    tabs.forEach((t, k) => t.addEventListener('click', () => show(k)));
+    prev.addEventListener('click', () => show(i - 1));
+    next.addEventListener('click', () => show(i + 1));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.target.closest('input, textarea')) return;
+      if (e.key === 'ArrowLeft')  show(i - 1);
+      if (e.key === 'ArrowRight') show(i + 1);
+    });
+
+    show(0);
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  })();
 </script>
 
 </body>
