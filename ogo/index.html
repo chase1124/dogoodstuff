@@ -490,43 +490,69 @@
 
     <div class="tabs" role="tablist" aria-label="Product tour">
       <button class="tab" role="tab" aria-selected="true"  aria-controls="pane-0" id="tab-0"><span class="tab-n">01</span>Control</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-1" id="tab-1"><span class="tab-n">02</span>Power</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-2" id="tab-2"><span class="tab-n">03</span>Schedule</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-3" id="tab-3"><span class="tab-n">04</span>Sessions</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-4" id="tab-4"><span class="tab-n">05</span>Replay</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-5" id="tab-5"><span class="tab-n">06</span>Model</button>
-      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-6" id="tab-6"><span class="tab-n">07</span>Settle</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-1" id="tab-1"><span class="tab-n">02</span>Loads</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-2" id="tab-2"><span class="tab-n">03</span>Power</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-3" id="tab-3"><span class="tab-n">04</span>Schedule</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-4" id="tab-4"><span class="tab-n">05</span>Sessions</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-5" id="tab-5"><span class="tab-n">06</span>Replay</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-6" id="tab-6"><span class="tab-n">07</span>Model</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="pane-7" id="tab-7"><span class="tab-n">08</span>Settle</button>
     </div>
 
     <div class="viewer">
 
       <!-- 01 CONTROL -->
       <div class="pane active" id="pane-0" role="tabpanel" aria-labelledby="tab-0">
+        <a class="pane-stage" href="../screenshots/ogo/ev-wizard-charge-intent.png">
+          <img src="../screenshots/ogo/ev-wizard-charge-intent.png"
+               alt="The charge wizard asking How should the car charge, offering four choices: Charge it now marked fastest, Whenever there's spare solar marked cheapest, By tonight, and Within a few hours — each with a plain-language explanation of what it will do."
+               width="2480" height="1192">
+        </a>
+        <div class="pane-body">
+          <div>
+            <p class="pane-kicker">01 · Control</p>
+            <h3>You state the outcome. It works out the electricity.</h3>
+          </div>
+          <div>
+            <p>This is the whole product in one screen. Not a rate limit, not a schedule grid —
+            four sentences describing what you actually want, and the system solves for it:
+            <strong>charge it now</strong>, <strong>whenever there's spare solar</strong>,
+            <strong>by tonight</strong>, or <strong>within a few hours</strong>.</p>
+            <p>Each option says what it will cost you in plain language. "Never pulls from the
+            grid. Charges only on surplus — it could take days" is an honest trade, stated up
+            front. And if you close it and do nothing, the car falls back to its saved profile,
+            because <strong>the system is already handling it.</strong></p>
+            <a class="full-link" href="../screenshots/ogo/ev-wizard-charge-intent.png">View full size →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 LOADS -->
+      <div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1">
         <a class="pane-stage" href="../screenshots/ogo/dashboard-smart-loads.png">
-          <img src="../screenshots/ogo/dashboard-smart-loads.png"
+          <img src="../screenshots/ogo/dashboard-smart-loads.png" loading="lazy"
                alt="Smart loads and sessions panel: a car charging card with per-vehicle profiles and Charge buttons, and a dehumidifier card with a humidity target slider and Run now buttons for three units."
                width="4656" height="1992">
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">01 · Control</p>
-            <h3>Your loads, with the rules you'd have applied anyway</h3>
+            <p class="pane-kicker">02 · Loads</p>
+            <h3>Every flexible load in the house, carrying a policy instead of a switch</h3>
           </div>
           <div>
-            <p>Each load carries a policy rather than a switch. The car is set to
-            <strong>surplus only, solar only</strong>, with a target it works toward; the
-            dehumidifiers run against a humidity goal instead of a timer. When you want to override,
-            there is a button — <strong>Charge</strong>, <strong>Run now</strong> — and a settings
-            gear per device.</p>
-            <p>This is the part a dashboard can't do. The system isn't reporting that your car
-            didn't charge; it's the thing that decides when it does.</p>
+            <p>The car sits on <strong>surplus only, solar only</strong> with a target it works
+            toward. The dehumidifiers answer to a humidity goal rather than a timer. Nothing here
+            is a schedule you have to maintain.</p>
+            <p>Override whenever you like — <strong>Charge</strong>, <strong>Run now</strong>, a
+            settings gear per device. The system isn't reporting that your car didn't charge; it's
+            the thing that decided when it would.</p>
             <a class="full-link" href="../screenshots/ogo/dashboard-smart-loads.png">View full size →</a>
           </div>
         </div>
       </div>
 
-      <!-- 02 POWER -->
-      <div class="pane" id="pane-1" role="tabpanel" aria-labelledby="tab-1">
+      <!-- 03 POWER -->
+      <div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2">
         <a class="pane-stage" href="../screenshots/ogo/dashboard-state-of-power.png">
           <img src="../screenshots/ogo/dashboard-state-of-power.png" loading="lazy"
                alt="State of power panel: solar, grid, battery and AC load tiles with flow arrows, an inverter card with analog gauges for AC amps, AC output, frequency and inverter temperature, and a power quality card showing real, apparent and reactive power with a power factor bar."
@@ -534,7 +560,7 @@
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">02 · Power</p>
+            <p class="pane-kicker">03 · Power</p>
             <h3>Every electrical fact on one screen, including the awkward ones</h3>
           </div>
           <div>
@@ -550,8 +576,8 @@
         </div>
       </div>
 
-      <!-- 03 SCHEDULE -->
-      <div class="pane" id="pane-2" role="tabpanel" aria-labelledby="tab-2">
+      <!-- 04 SCHEDULE -->
+      <div class="pane" id="pane-3" role="tabpanel" aria-labelledby="tab-3">
         <a class="pane-stage" href="../screenshots/ogo/dashboard-battery-trajectory.png">
           <img src="../screenshots/ogo/dashboard-battery-trajectory.png" loading="lazy"
                alt="Battery trajectory and committed plan: a projected state-of-charge curve above a minimum-required line across the day, with a legend for scheduled car charge, dehumidifier and desktop compute loads, and Today and Tomorrow toggles."
@@ -559,7 +585,7 @@
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">03 · Schedule</p>
+            <p class="pane-kicker">04 · Schedule</p>
             <h3>The plan is a commitment, not a suggestion</h3>
           </div>
           <div>
@@ -576,16 +602,16 @@
         </div>
       </div>
 
-      <!-- 04 SESSIONS -->
-      <div class="pane" id="pane-3" role="tabpanel" aria-labelledby="tab-3">
-        <a class="pane-stage" href="../screenshots/ogo/sessions-timeline-aug4.png">
-          <img src="../screenshots/ogo/sessions-timeline-aug4.png" loading="lazy"
+      <!-- 05 SESSIONS -->
+      <div class="pane" id="pane-4" role="tabpanel" aria-labelledby="tab-4">
+        <a class="pane-stage" href="../screenshots/ogo/sessions-timeline-aug7.png">
+          <img src="../screenshots/ogo/sessions-timeline-aug7.png" loading="lazy"
                alt="Sessions timeline with toggleable layers for session ribbons, watts, state strip and humidity. Each load has a row with energy and cost; a grid-charge session shows a ribbon above a detailed power trace."
-               width="4656" height="2444">
+               width="2280" height="1108">
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">04 · Sessions</p>
+            <p class="pane-kicker">05 · Sessions</p>
             <h3>Every run recorded, profiled and priced</h3>
           </div>
           <div>
@@ -597,13 +623,13 @@
             on/idle/off state, and humidity for the loads that answer to it. Watts falling outside a
             ribbon are flagged as an untracked run, so <strong>the bookkeeping is auditable rather
             than assumed</strong>.</p>
-            <a class="full-link" href="../screenshots/ogo/sessions-timeline-aug4.png">View full size →</a>
+            <a class="full-link" href="../screenshots/ogo/sessions-timeline-aug7.png">View full size →</a>
           </div>
         </div>
       </div>
 
-      <!-- 05 REPLAY -->
-      <div class="pane" id="pane-4" role="tabpanel" aria-labelledby="tab-4">
+      <!-- 06 REPLAY -->
+      <div class="pane" id="pane-5" role="tabpanel" aria-labelledby="tab-5">
         <a class="pane-stage" href="../screenshots/ogo/replay-day-animation.gif">
           <img src="../screenshots/ogo/replay-day-animation.gif" loading="lazy"
                alt="Animated day replay: a playhead sweeps a timeline from morning to night while each array's panel fill, hour classification badge and the site output update in step."
@@ -611,7 +637,7 @@
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">05 · Replay</p>
+            <p class="pane-kicker">06 · Replay</p>
             <h3>Scrub back through any day and watch it happen</h3>
           </div>
           <div>
@@ -627,8 +653,8 @@
         </div>
       </div>
 
-      <!-- 06 MODEL -->
-      <div class="pane" id="pane-5" role="tabpanel" aria-labelledby="tab-5">
+      <!-- 07 MODEL -->
+      <div class="pane" id="pane-6" role="tabpanel" aria-labelledby="tab-6">
         <a class="pane-stage" href="../screenshots/ogo/explorer-expected-vs-actual.png">
           <img src="../screenshots/ogo/explorer-expected-vs-actual.png" loading="lazy"
                alt="Expected versus actual chart across eight days: for each array a solid line traces actual output and a dashed line traces the physical expectation, with the gap between them visible on every daily peak."
@@ -636,7 +662,7 @@
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">06 · Model</p>
+            <p class="pane-kicker">07 · Model</p>
             <h3>What your panels <em>should</em> have made — from physics, not from last Tuesday</h3>
           </div>
           <div>
@@ -652,8 +678,8 @@
         </div>
       </div>
 
-      <!-- 07 SETTLE -->
-      <div class="pane" id="pane-6" role="tabpanel" aria-labelledby="tab-6">
+      <!-- 08 SETTLE -->
+      <div class="pane" id="pane-7" role="tabpanel" aria-labelledby="tab-7">
         <a class="pane-stage" href="../screenshots/ogo/replay-day-pnl.png">
           <img src="../screenshots/ogo/replay-day-pnl.png" loading="lazy"
                alt="Day profit and loss: one bar per array showing expected revenue split into earned, under-production, shade and diffuse light, with a site total summarising energy made, value captured and value left on the table."
@@ -661,7 +687,7 @@
         </a>
         <div class="pane-body">
           <div>
-            <p class="pane-kicker">07 · Settle</p>
+            <p class="pane-kicker">08 · Settle</p>
             <h3>The day, in dollars, split by cause</h3>
           </div>
           <div>
@@ -678,7 +704,7 @@
 
       <div class="pane-nav" style="padding: 0 2.25rem 2rem;">
         <button id="prev" type="button">← Previous</button>
-        <span class="pane-count"><span id="cur">1</span> / 7</span>
+        <span class="pane-count"><span id="cur">1</span> / 8</span>
         <button id="next" type="button">Next →</button>
       </div>
 
