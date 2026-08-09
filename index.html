@@ -1024,43 +1024,6 @@
       <p class="apps-intro">Experiments in applied philosophy. Tools that serve an outcome — and then get out of the way.</p>
     </div>
     <div class="apps-grid reveal">
-
-      <!-- TrashRangers -->
-      <div class="app-card" onclick="openAppModal('trashrangers')">
-        <div class="app-screen">
-          <div class="phone-frame">
-            <img src="screenshots/trashrangers.png" alt="TrashRangers"/>
-          </div>
-        </div>
-        <div class="app-info">
-          <h3>TrashRangers</h3>
-          <p>Your neighborhood is a quest. Go outside.</p>
-          <span class="app-status status-concept">Concept</span>
-          <div class="app-more">Details →</div>
-        </div>
-      </div>
-
-      <!-- GreenCart -->
-      <div class="app-card" onclick="openAppModal('greencart')">
-        <div class="app-screen">
-          <div class="browser-frame">
-            <div class="browser-bar">
-              <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-            </div>
-            <div class="browser-content">
-              <img src="screenshots/cards/card-greencart.jpg" loading="lazy"
-                   alt="GreenCart price history — per-unit prices for three products over time, with sale prices ringed"/>
-            </div>
-          </div>
-        </div>
-        <div class="app-info">
-          <h3>GreenCart</h3>
-          <p>See what your groceries actually cost.</p>
-          <span class="app-status status-live">Live</span>
-          <div class="app-more">Details →</div>
-        </div>
-      </div>
-
       <!-- OffgridOperator -->
       <div class="app-card" onclick="openAppModal('offgrid')">
         <div class="app-screen">
@@ -1078,6 +1041,42 @@
           <h3>OffgridOperator</h3>
           <p>Live deliberately, even at the breaker box.</p>
           <span class="app-status status-live">In production</span>
+          <div class="app-more">Details →</div>
+        </div>
+      </div>
+
+      <!-- DoGoodGroceries -->
+      <div class="app-card" onclick="openAppModal('dogoodgroceries')">
+        <div class="app-screen">
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+            </div>
+            <div class="browser-content">
+              <img src="screenshots/cards/card-dogoodgroceries.jpg" loading="lazy"
+                   alt="DoGoodGroceries price history — per-unit prices for three products over time, with sale prices ringed"/>
+            </div>
+          </div>
+        </div>
+        <div class="app-info">
+          <h3>DoGoodGroceries</h3>
+          <p>See what your groceries actually cost.</p>
+          <span class="app-status status-live">Live</span>
+          <div class="app-more">Details →</div>
+        </div>
+      </div>
+
+      <!-- TrashRangers -->
+      <div class="app-card" onclick="openAppModal('trashrangers')">
+        <div class="app-screen">
+          <div class="phone-frame">
+            <img src="screenshots/trashrangers.png" alt="TrashRangers"/>
+          </div>
+        </div>
+        <div class="app-info">
+          <h3>TrashRangers</h3>
+          <p>Your neighborhood is a quest. Go outside.</p>
+          <span class="app-status status-concept">Concept</span>
           <div class="app-more">Details →</div>
         </div>
       </div>
@@ -1190,13 +1189,13 @@
       ],
       status: 'Concept', cls: 'status-concept'
     },
-    greencart: {
-      name: 'GreenCart',
+    dogoodgroceries: {
+      name: 'DoGoodGroceries',
       tagline: 'See what your groceries actually cost.',
       link: 'https://groceries.dogoodstuff.org',
-      linkLabel: 'Open GreenCart',
+      linkLabel: 'Open DoGoodGroceries',
       desc: [
-        'Photograph a grocery receipt and Claude Vision extracts every line item, price and quantity. The hard part isn\'t reading the receipt — it\'s that receipts are written in a private dialect. GreenCart resolves text like <em>1LT HRD SLTZR LEMON</em> into a normalized product catalog, so the same item bought at three stores under three names becomes one thing you can track.',
+        'Photograph a grocery receipt and Claude Vision extracts every line item, price and quantity. The hard part isn\'t reading the receipt — it\'s that receipts are written in a private dialect. DoGoodGroceries resolves text like <em>1LT HRD SLTZR LEMON</em> into a normalized product catalog, so the same item bought at three stores under three names becomes one thing you can track.',
         'From there it charts real per-unit price history across stores, separating sale prices from regular ones, so you can see what something actually costs rather than what it cost today.',
         'No streaks. No ranks. Just observability — see your choices clearly, then put the phone down.'
       ],
