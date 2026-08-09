@@ -3,7 +3,7 @@ title: ogo.dogoodstuff.org — marketing / demo page for OffGridOperator
 type: feature
 component: frontend
 domain:
-status: not_started
+status: in_progress
 created: 2026-08-09
 completed:
 spawned_from: TODO/feature_site_portfolio-for-rmi-application.md
@@ -45,45 +45,77 @@ for a page with room. This is that page.
    not measured at 46elm. Keep that visible. For an energy audience a system that states its error
    bars reads as more credible, not less — cropping it out would be both dishonest and weaker.
 
+## A v1 shipped 2026-08-09 at `dogoodstuff.org/ogo/` — read this before re-planning
+
+**The page exists and is live.** It was built against the RMI deadline, so it took the reviewer
+fork of task 1 and the path-not-subdomain fork of task 6. Tasks 1, 2, 3, 4 and 7 are done. What is
+left below is the difference between the deadline version and the fuller version this file was
+written for.
+
+**What v1 is:** a reviewer page in five figures, following exactly the narrative spine task 2
+specified — the sky it measured (`replay-yard-midday.png`), expectation against reality across
+seven arrays and eight days (`explorer-model-fidelity-full.png`), the per-array diagnosis with its
+generated callouts (`replay-shade-by-array.png`), and the day priced out
+(`replay-day-pnl.png`) — with `replay-day-animation.gif` as the hero, as task 3 recommended. It
+closes with a "What it doesn't do yet" section carrying both hard constraints in prose.
+
+**What v1 is not:** it uses **5 of the 29 captures**. It carries no collaborator ask. It has no
+subdomain. And **nobody has looked at it** — it was built on a Pi with no browser (see the parent's
+Session Notes), and verified only by HTTP status and asset resolution.
+
 ## Tasks
 
-- [ ] **1. Decide the page's job.** Two different pages are possible and they are not compatible:
-      a *recruiter/reviewer* page that argues "this person builds real systems," or a *user/
-      collaborator* page that argues "you should run this on your array." The parent TODO's task 7
-      leans toward the second (it specifies the collaborator ask). The RMI deadline leans toward
-      the first. **Pick one and say so at the top of this file** — the screenshots, the copy and
-      the call to action all follow from it.
-- [ ] **2. Draft the narrative spine before touching HTML.** The strongest story the captures
-      support, in order: *(a)* it knows what the sky did — measured GHI, cloud, temp; *(b)* it
-      knows what the panels **should** have made — solar-geometry POA, not a guess; *(c)* it
-      knows why they didn't — shade vs fault vs diffuse, per array-hour; *(d)* it prices the gap —
-      day P&L, dollars left on the table. That is a genuinely unusual capability and it is what
-      the page should be built around.
-- [ ] **3. Choose the hero.** Recommend `replay-day-animation.gif` (543KB, 1100px) — it shows
-      shade detection happening rather than describing it, and around 2:53 PM two arrays flip to
-      `shade` while a third stays `full`. Check the weight budget before committing to it.
-- [ ] **4. Build the page.** New file; decide whether it shares `index.html`'s stylesheet or gets
-      its own. 🛠 Skill: `/prototype` to preview on the MacBook before deploying.
+- [x] **1. DONE — reviewer page.** The RMI deadline decided it. Note this is the *opposite* of what
+      the parent's task 7 leaned toward, so if the subdomain version is meant to recruit
+      collaborators it is a genuinely different page, not a restyle. Decide that consciously.
+- [x] **2. DONE — narrative spine as specified**, and it held up well against the real captures.
+- [x] **3. DONE — the GIF is the hero**, eager-loaded at 544 KB against ~2.9 MB total page imagery.
+- [x] **4. DONE — `ogo/index.html`.** Its own stylesheet, deliberately: it reuses the house palette,
+      the Playfair/Crimson pairing, the grain overlay and the reveal-on-scroll, but `index.html`'s
+      CSS is inline in a 40 KB single file with no shareable stylesheet to link. **If a third page
+      ever wants this look, extract a stylesheet then** — two copies is the point at which
+      duplication is cheaper than the wrong abstraction, three is not.
 - [ ] **5. Include the collaborator ask** (from parent task 7): works on a limited range of
       hardware configurations; if you'd like to help extend it to others, reach out.
       📖 Prereq: the email address is still an open decision in the parent.
+      **Deliberately absent from v1** — a reviewer page asking for collaborators reads as a
+      different document. This is the main thing the subdomain version adds.
 - [ ] **6. Wire up DNS + hosting for `ogo.dogoodstuff.org`.** The apex site is GitHub Pages via
       `CNAME`; a subdomain needs its own decision — second Pages repo, a path on this one, or
       hosting on the k3s cluster alongside `dance` and `dogoodgroceries`.
       🛠 Skill: `/dns-entry`, and `/deploy-app` if it lands on the cluster.
-- [ ] **7. Link it from the main site** — the OffgridOperator card currently has **no link**, on
-      purpose, because the only URL was the LAN-only portal full of placeholder tiles. This page
-      is the link that card has been waiting for.
+      **When it lands, redirect `/ogo/` to it rather than deleting** — the URL is cited in the RMI
+      resume and a reviewer may open it weeks after submission.
+- [x] **7. DONE — the OffgridOperator card links to `/ogo/`**, labelled "See it running". It links
+      to the demo page and never to the portal, which is what resolved the parent's task 4d.
+- [ ] **8. NEW — look at the page.** It has never been rendered. Check it on the MacBook and on a
+      phone: five very wide screenshots on a narrow viewport is the obvious failure mode, and the
+      figures are the entire page. 🛠 Skill: `/prototype`.
+- [ ] **9. NEW — the other 23 captures still have no home.** The dashboard set (battery and
+      cell-level safety, inverter gauges, power quality, battery trajectory against a committed
+      plan, net value vs utility) and the sessions set (smart-load timeline, capture health) are
+      unused. They argue a *different* claim than v1 does — v1 argues "this system does real
+      analysis", they argue "this system runs a house". ⚠ `sessions-money-flow.png` should not
+      ship; the README explains why.
 
 ## Open decisions
 
-- Reviewer page or collaborator page (task 1) — everything else depends on it
-- Where it is hosted (task 6)
-- Whether it embeds the GIF or links to it, given page weight
-- Whether it links onward into the live portal at all — see parent task 4d, the placeholder
-  explorer tiles
+- ~~Reviewer page or collaborator page~~ — v1 chose reviewer. **Still live for the subdomain
+  version**, and it is the fork that decides whether that is a new page or a restyle.
+- Where it is hosted (task 6) — v1 sidestepped this with a path
+- ~~Whether it embeds the GIF or links to it~~ — v1 embeds it, eager, and also links it full-size
+- ~~Whether it links onward into the live portal~~ — **no, settled.** v1 links nowhere near the
+  portal, and that is what let the placeholder-tiles decision be deferred safely
 
 ## Session Notes
+
+**2026-08-09 (second)** — Built v1 as `dogoodstuff.org/ogo/` and shipped it. See the block at the
+top of this file for what it does and does not cover, and the parent TODO's session notes for the
+three decisions and the no-browser caveat. One thing worth keeping here: **the captions came from
+reading the images, not the README.** The strongest sentence on the page — that the diagnostic
+callouts are generated in code from each array's capability curve and recompute on new data rather
+than being hand-written — is stated in small print inside `replay-shade-by-array.png` and appears
+nowhere in `screenshots/ogo/README.md`. If the fuller version reuses more captures, read them.
 
 **2026-08-09** — Spun off from the portfolio TODO when James said "ogo.dogoodstuff.org should be a
 demo / marketing page for OGO." The captures already exist and are documented; the missing pieces

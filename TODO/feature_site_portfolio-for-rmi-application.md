@@ -109,7 +109,13 @@ The site currently presents three projects at equal weight. That is not accurate
       design work rather than a running app. Note the artwork still shows invented user data
       (a named ranger, 47 bags, a 12-day streak) — coherent now that it's labelled, but if the
       post-submission page gives TrashRangers more room, that's the thing to revisit.
-- [ ] **4d. Decide whether the OGO portal's placeholder explorer tiles get hidden before Sunday.**
+- [x] **4d. RESOLVED 2026-08-09 — no reviewer is ever sent into the portal, so the tiles don't
+      matter before the deadline.** The demo page at `dogoodstuff.org/ogo/` shows *screenshots of*
+      the portal and deliberately links nowhere near it; the OffgridOperator card links to that
+      page, not to `portal.ogo.elm.therain.website`. This resolves the decision **without touching
+      OGO's own code on deadline day**, which is what the parent RMI TODO asked for. The tiles are
+      still placeholders and still want fixing — that is now a post-submission job, not a blocker.
+      Original decision text, kept for the post-submission pass:
       If the resume link leads a reviewer into `portal.ogo.elm.therain.website`, the dashboard's
       "All explorers" grid shows eight tiles — Plan, Forecast, Production forecast, Simulation,
       Operational, Weather, Circuit, Cost — that are all `href="#"` with nothing behind them.
@@ -117,17 +123,25 @@ The site currently presents three projects at equal weight. That is not accurate
       Options: hide the unbuilt tiles behind a flag for the review window; mark them visibly as
       roadmap; or leave as-is and don't link a reviewer into the portal at all. **James's call**,
       and it's the only one of these that touches OGO's own code rather than this site's.
-- [ ] **5. Confirm the resume/letter link target** — one stable URL. Deep-link to the projects
-      section if it has a stable anchor. Note this interacts with 4d: linking *into* the portal
-      and linking *to a portfolio page that shows screenshots of* the portal are different risks.
-- [ ] **6. Deploy and verify live** before the resume cites it. GitHub Pages; confirm the CNAME
-      still resolves and the page renders.
+- [x] **5. Link target SETTLED 2026-08-09: `https://dogoodstuff.org/ogo/`.** This is the URL the
+      resume's OffGridOperator entry should carry. It is better than the `#apps` anchor on the main
+      page (which exists and works) because the RMI ask is specifically for *analysis evidence*, and
+      the main page has room for one thumbnail. `/ogo/` shows five screens of actual output.
+      A path, not the `ogo.dogoodstuff.org` subdomain from task 7 — no DNS and no new hosting
+      decision on deadline day, and the subdomain can redirect here whenever it is built.
+- [x] **6. Deployed and verified live 2026-08-09.** `dogoodstuff.org` returns 200 with the
+      DoGoodGroceries rename and the reordered cards already serving; `/ogo/` deployed in the same
+      GitHub Pages push. All five image paths verified resolving. **Not verified: how it looks.**
+      No browser exists on `dirt5`, the aarch64 Pi this was built on — see Session Notes.
 
 ## After submitting — the fuller portfolio
 
 - [ ] **7. `ogo.dogoodstuff.org` — marketing / demo page for OffGridOperator.**
       **[delegated → `TODO/feature_site_ogo-marketing-demo-page.md`]**
       This is where the other 28 OGO captures earn their place; the main site uses only one.
+      **Partly landed 2026-08-09 as `dogoodstuff.org/ogo/`** — a deadline-shaped reviewer page
+      using five captures. The child TODO now carries what the fuller version still owes: the
+      collaborator ask, the subdomain, and the other 23 captures.
 - [ ] **8. `groceries.dogoodstuff.org` pre-login page should be marketing, not a bare sign-in form.**
       **[delegated → `~/development/dogoodgroceries/TODO/feature_frontend_public-marketing-page.md`]**
       Carries the collaborator ask, the GreenCart→DoGoodGroceries rename, and the warning not to
@@ -162,12 +176,58 @@ system that states its error bars reads as more credible, not less.
 
 ## Open decisions — James's, not Claude's
 
-- **Whether the OGO portal's eight placeholder explorer tiles get hidden before a reviewer can
-  click them** — see task 4d. Time-sensitive if the resume links into the portal.
+- ~~Whether the OGO portal's eight placeholder explorer tiles get hidden~~ — **no longer
+  time-sensitive.** Nothing links a reviewer into the portal (task 4d). Still worth fixing after
+  submission.
+- ~~The email address the collaborator ask points to~~ — **not needed before the deadline.**
+  `/ogo/` was built as a reviewer page, and a reviewer page carries no collaborator ask. The
+  question returns with the fuller subdomain build (child TODO task 5).
 - Whether dance and StorageCommander appear
-- The email address the collaborator asks point to
+- **The 60 kWh figure — worth one look before a reviewer reads it.** `/ogo/` mirrors the main
+  page's existing "20 kW / 60 kWh" wording, but the RMI project's pinned facts say 60 kWh is
+  **30 kWh at each of two sites**. If `/ogo/` describes one production instance, "60 kWh" may
+  overstate that site. Claude deliberately did not change it unilaterally — the number is already
+  published and James-approved on the main page, and editing one of two published pages would put
+  them in conflict. Fix both or neither.
 
 ## Session Notes
+
+**2026-08-09 — built and shipped `dogoodstuff.org/ogo/`, the deadline slice of task 7.**
+
+The before-Sunday slice is closed. What actually drove it was not this file's own task list but the
+**parent RMI TODO's item 2**: add OffGridOperator analysis evidence to the resume, *stating what the
+system produced rather than what it can do*. That is named there as the one gap all four blind
+recruiter screens found and none could close by rewording. There was nowhere for that link to point
+— the OffgridOperator card deliberately had no link, and 29 captures sat unreachable on disk.
+
+**Three decisions, all made by Claude with the reasoning stated rather than escalated**, because
+each had an obvious answer under a same-day deadline:
+
+1. **A path (`/ogo/`), not the `ogo.dogoodstuff.org` subdomain.** No DNS, no hosting decision, ships
+   on the push that already works, and the subdomain can redirect here later. James confirmed.
+2. **Reviewer page, not collaborator page** — the child TODO's task 1 says pick one and everything
+   follows. This dissolved the open email-address decision.
+3. **No link into the portal**, which dissolved task 4d without touching OGO's code on deadline day.
+
+**Both honesty caveats are visible in the shipped captures rather than cropped out** — the P&L panel
+states "Curtailment: none drawn" itself, and every capture grade carries its PROVISIONAL badge. The
+page also has a "What it doesn't do yet" section that says so in prose. This was treated as a
+credibility asset for an energy reader, per the README's own guidance.
+
+**Captions were written from the images, not from the README.** Reading the four captures directly
+produced specifics the summary did not carry — the suspected-fault array peaking at 72% of expected
+in every clear hour, the 501 W/m² / 39% cloud / 30 °C sky reading, capture ratios spanning 33–60%
+across seven arrays, and the fact that the callouts are generated in code and recompute on new data.
+That last one is the strongest line on the page and it is nowhere in the README.
+
+⚠ **Built on `dirt5`, an aarch64 Pi, which has no browser and no PDF tooling** — no Chrome or
+Chromium, no poppler, no ghostscript, no `osascript`, no Python PDF library. Consequences worth
+carrying: the page's **visual rendering has never been looked at by anyone**, only its HTML and its
+asset paths (all verified 200 live). And a session on this box **cannot read the resume or cover
+PDFs at all** — the RMI project's `CLAUDE.md` prescribes a macOS PDFKit/JXA recipe without saying it
+is macOS-only. Do the letter/resume work on the Mac.
+
+Page weight: ~2.9 MB of imagery, hero GIF eager, the other four lazy.
 
 **2026-08-07 (second session)** — Collected the OffGridOperator screenshots (task 4a). Drove the
 live portal with headless Chrome over CDP; the Claude-in-Chrome extension was disconnected, but
