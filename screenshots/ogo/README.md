@@ -86,6 +86,23 @@ the Mac with headless Chrome over CDP, as the 46elm set was.
   carries the most — it shows shade detection happening rather than describing it.
 - **`sessions-money-flow.png` is the weakest** and probably shouldn't ship: four bars across eight
   days, and the car reads 0 of a 30 kWh weekly target. Truthful, but it reads as an idle system.
+- 🚫 **`sessions-capture-health.png` must never ship.** It is a self-audit panel reporting a
+  *controller defect* — "1/8 sessions are fragments … the controller is splitting one physical run
+  into slivers. Daily 'sessions ran' counts are inflated" — and it names an internal workstream
+  ("WS4 · smart-load control plane — untracked-run session gap"). Publishing a known bug and
+  internal task shorthand on a marketing page is two mistakes at once.
+- ⚠ **All `sessions-*` captures are from Aug 4, which is a bad day for that screen** —
+  only `car_charger` carries a state classification, so most rows print "no state classification
+  for this load/day". **Aug 6 onward has three classified loads.** Verified against
+  `/api/sessions?day=…`; see task 12 in `TODO/feature_site_ogo-marketing-demo-page.md`.
+  Check the API before spending a capture — it costs one curl and it is the only thing that
+  differs between days.
+- ✅ **Prefer `explorer-expected-vs-actual.png` over `explorer-model-fidelity-full.png`** for any
+  "we model the physics" claim at 46elm. The full composite bundles the capture-ratio tiles and the
+  array×day heatmap, and **every grade in both carries a `PROVISIONAL` badge** because this site's
+  tilt/azimuth are unmeasured. The cropped chart makes the same solid-vs-dashed argument with no
+  caveat attached. (Once Kingman is captured this reverses — there the grades should be real, and
+  the full composite becomes the stronger asset.)
 - **`replay-yard.png` vs `replay-yard-midday.png`** — use the midday one. The other is the 8 AM
   default the page opens on, and the arrays are barely producing.
 

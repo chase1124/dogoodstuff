@@ -119,6 +119,30 @@ Session Notes), and verified only by HTTP status and asset resolution.
 - [ ] **8. NEW — look at the page.** It has never been rendered. Check it on the MacBook and on a
       phone: five very wide screenshots on a narrow viewport is the obvious failure mode, and the
       figures are the entire page. 🛠 Skill: `/prototype`.
+- [ ] **12. NEW — re-shoot Sessions on a day that has state classification. Use 2026-08-06 or
+      later; do NOT use Aug 4.** James spotted that the shipped capture shows almost no state
+      classification. Confirmed against the live API (`/api/sessions?day=YYYY-MM-DD`), which is the
+      cheap way to pick a day before spending a capture on it:
+
+      | Day | State-classified loads |
+      |---|---|
+      | Aug 2 – Aug 5 | **1** (`car_charger` only) — every other row prints "no state classification for this load/day" |
+      | Aug 6 – Aug 9 | **3** (`car_charger`, `dehumidifier_home`, `dehumidifier_lg`) |
+
+      Session totals are identical across the window (8 sessions, 8.61 kWh — the endpoint returns
+      the rolling window and the UI filters it), so **the state trace is the only thing that varies
+      and the only reason to prefer a day.** The API window is 8 days rolling, so this table needs
+      re-deriving rather than trusting after ~2026-08-17.
+- [ ] **13. NEW — capture the EV charge wizard; it is probably a better Control pane than the
+      smart-loads panel now shipping.** James raised it and could not judge it unseen. Confirmed
+      present at `/ev-charging` (16 wizard hooks, 9 modal, a 123-step flow). Its actual button
+      labels are the reason it is worth shooting — the whole value proposition in plain language,
+      no jargon:
+      *"⚡ Charge wizard"* → *"Choose which car this is"* → *"Use a saved profile"* →
+      energy source **"Solar surplus only" / "Grid allowed"** → stop condition **"Car is full" /
+      "A set amount" / "I unplug it"** → *"Save as a profile"* → *"Start charging"*.
+      Shoot the wizard mid-flow with the options visible, not the console at rest.
+      ⚠ Needs a browser — see task 8.
 - [ ] **10. NEW, HIGH VALUE — capture the Kingman install.** `ogo.kingman.therain.website`
       (192.168.50.57) is a second live install running the same build, reachable from `dirt5`, and
       **nothing has ever been captured from it.** Two reasons it is the better demo source:
