@@ -45,7 +45,35 @@ for a page with room. This is that page.
    not measured at 46elm. Keep that visible. For an energy audience a system that states its error
    bars reads as more credible, not less — cropping it out would be both dishonest and weaker.
 
-## A v1 shipped 2026-08-09 at `dogoodstuff.org/ogo/` — read this before re-planning
+## v2 shipped 2026-08-09 — the page's JOB changed. Read this first.
+
+James reviewed v1 and rejected its framing. **This page is not a portfolio of his personal solar
+system. It is OffGridOperator's product marketing, which happens to use a real install for real
+data.** Everything follows from that:
+
+- **No personal system specs.** v1's spec strip published capacity and array count. Gone. Generic
+  capability plus "built on" only.
+- **Lead with the controller, not the analysis.** *"Why would I want to use this? Because it exposes
+  awesome control over your system automagically."* v1 spent all seven of its figures on one corner
+  — expected-vs-actual analysis — and never showed that **the system schedules loads and drives
+  charging**, which James calls a CORE CORE feature. v2 opens on smart loads, power quality, the
+  committed battery plan and session profiling; the analysis screens come after.
+- **Never list your gaps as gaps.** v1 had a "What it doesn't do yet" section. *"The whole 'what it
+  lacks' is BAD marketing."* It is now **"Shipping next"**, framed as roadmap.
+- **🔒 Do not disclose the portal's security posture.** v1 stated it runs on a LAN without an
+  authentication layer. Removed and **must not come back** — it is both a marketing negative and
+  nobody's business.
+- **Design: not one long scroll.** v2 is a tabbed viewer with prev/next and arrow keys. James also
+  floated scroll-snap panes and horizontal paging — the tab strip was chosen as the cheapest thing
+  that lets a visitor pick a topic. Still open to a better answer.
+
+**Three factual errors v1 shipped live**, all now recorded in `screenshots/ogo/README.md` — read
+that file before writing another caption. Briefly: the "Faulty array suspected" diagnosis v1 used as
+a **headline** is a false positive caused by two parallel arrays at different tilt/azimuth; the array
+flagged in 1 of 6 clear hours was correct in the other 5, which is a *good* signal read backwards;
+and "one production site" was false. `replay-shade-by-array.png` is no longer used anywhere.
+
+## The v1 notes below are superseded on framing, still accurate on inventory
 
 **The page exists and is live.** It was built against the RMI deadline, so it took the reviewer
 fork of task 1 and the path-not-subdomain fork of task 6. Tasks 1, 2, 3, 4 and 7 are done. What is
@@ -91,6 +119,23 @@ Session Notes), and verified only by HTTP status and asset resolution.
 - [ ] **8. NEW — look at the page.** It has never been rendered. Check it on the MacBook and on a
       phone: five very wide screenshots on a narrow viewport is the obvious failure mode, and the
       figures are the entire page. 🛠 Skill: `/prototype`.
+- [ ] **10. NEW, HIGH VALUE — capture the Kingman install.** `ogo.kingman.therain.website`
+      (192.168.50.57) is a second live install running the same build, reachable from `dirt5`, and
+      **nothing has ever been captured from it.** Two reasons it is the better demo source:
+      **panel tilt and azimuth are measured there**, so its capture-ratio grades should be real
+      rather than `PROVISIONAL`; and **curtailment is live** — its payload carried
+      `curtailment: {active: true, kwh: 2.62, window: "3–5 pm"}` on 2026-08-09, the exact feature
+      that reads $0.00 at 46elm and therefore had to be written up as unshipped.
+      Re-shooting both those screens from Kingman would let the Model pane drop its estimate
+      caveat and let "priced curtailment" move off the roadmap onto the page.
+      ⚠ **Needs a machine with a browser** — see task 8.
+      ⚠ Also flags an infra doc drift: `~/development/CLAUDE.md` puts `20kingman` in `ma_west` on
+      `10.0.60.0/24`, but this resolves to `192.168.50.57`. Worth reconciling.
+- [ ] **11. NEW — the portal's fleet view looks like a mockup; confirm before it is ever shown.**
+      The dashboard carries a multi-site fleet block ("Fleet SOC (avg) 61% · 3 sites",
+      "$214 fleet savings", "20 Kingman — low PSH alarm") whose rows are all `href="#"` and whose
+      figures look synthetic. Multi-site is a genuinely strong marketing story **if it is real** —
+      establish which it is before any capture of it goes near the page.
 - [ ] **9. NEW — the other 23 captures still have no home.** The dashboard set (battery and
       cell-level safety, inverter gauges, power quality, battery trajectory against a committed
       plan, net value vs utility) and the sessions set (smart-load timeline, capture health) are
@@ -108,6 +153,22 @@ Session Notes), and verified only by HTTP status and asset resolution.
   portal, and that is what let the placeholder-tiles decision be deferred safely
 
 ## Session Notes
+
+**2026-08-09 (third) — v2, after James's review.** The lesson worth carrying, because it is the same
+one twice: **Claude read the product's output as ground truth.** The "Faulty array suspected" callout
+was quoted as a *headline* — it was chosen precisely because it looked like the system's most
+impressive moment — and it is a false positive that only the person who wired the arrays could
+identify. The same paragraph inverted a second finding, reading 1 flagged hour out of 6 as a defect
+when 5 correct hours is the actual signal.
+
+The error was not in reading the screenshot carelessly; it was **treating a generated diagnosis as a
+verified fact**. Captions may describe what a screen *does*. Repeating a specific conclusion as
+confirmed needs a human who knows the hardware. Both are now recorded in
+`screenshots/ogo/README.md` for whoever writes the next caption.
+
+Second lesson: **a screenshot corpus is not the product.** v1 argued from the captures that existed
+rather than from what the system is for, which is how a load-scheduling controller got marketed as an
+analysis tool. The captures were collected before anyone had decided what the page was arguing.
 
 **2026-08-09 (second)** — Built v1 as `dogoodstuff.org/ogo/` and shipped it. See the block at the
 top of this file for what it does and does not cover, and the parent TODO's session notes for the

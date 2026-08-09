@@ -27,6 +27,47 @@ and needed no day switch.
 | `sessions-*.png` | Smart-load session timeline, money flow by load, and a self-audit "capture health" panel. |
 | `*-FULLPAGE.png` | Whole-page versions of each surface. |
 
+## ⚠ THREE CAPTURES CARRY CLAIMS THAT ARE WRONG — added 2026-08-09 by James
+
+These are not style notes. The captures are accurate recordings of what the product displayed;
+the **product's own conclusions** in them are wrong, and a caption that repeats them ships a
+falsehood. This was caught only after a page had already gone live quoting one as a headline.
+
+1. **`replay-shade-by-array.png` — the "Faulty array suspected" diagnosis on `mopowa` is a FALSE
+   POSITIVE.** That array is **two physical arrays wired in parallel at different locations with
+   different tilt and azimuth**, which defeats the grader: it compares a combined output against a
+   single-geometry expectation, so it reads permanent under-production where there is none. **Do
+   not present this as the system correctly finding a fault.** It is a real limitation of
+   single-geometry modelling on a parallel string.
+2. **Same capture — `bluesolar` flagged "under-producing in 1 of its 6 clear hours" is a GOOD
+   result, not a problem.** Five of six hours graded correctly. Reading the one flagged hour as a
+   defect inverts the meaning.
+3. **`replay-day-pnl.png` and `dashboard-net-value-vs-utility.png` show curtailment at zero —
+   that is a 46elm data artefact, not a product limit.** The Kingman install reports **active
+   curtailment with real figures**. See the site note below.
+
+**A caption may describe what a screen DOES. It may not repeat a specific diagnosis as if it were
+confirmed** unless someone has checked that instance. Ask.
+
+## ⚠ These captures are all from ONE site. There is a second, and it is better.
+
+`ogo.kingman.therain.website` (192.168.50.57) is a **live second OffGridOperator install**,
+reachable from `dirt5`, running the same build. It is the better demo source and nothing has ever
+been captured from it:
+
+- **Panel tilt and azimuth are measured there.** At 46elm they are not, which is why every capture
+  ratio in `explorer-model-fidelity-full.png` carries a `PROVISIONAL` badge. Kingman's grades should
+  be real, which makes the model-fidelity story far stronger.
+- **Curtailment is live there.** Its dashboard payload carried
+  `curtailment: {active: true, kwh: 2.62, window: "3–5 pm"}` on 2026-08-09 — the exact feature that
+  reads $0.00 at 46elm and therefore had to be described as unshipped.
+- The provisional banner is **data-driven** (`FID_PROVISIONAL`, hidden when empty), so which arrays
+  are graded provisionally can only be determined by loading the page, not by reading the HTML.
+
+⚠ **Re-shooting requires a machine with a browser.** `dirt5` (aarch64 Pi) has no Chrome, Chromium,
+poppler or ghostscript, and installing them ad hoc is against the ansible-only rule. Capture from
+the Mac with headless Chrome over CDP, as the 46elm set was.
+
 ## Two honesty notes before any of this goes on the site
 
 1. **Curtailment is not priced yet.** The Day P&L panel says so itself: *"Curtailment: none drawn
