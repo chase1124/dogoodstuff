@@ -7,7 +7,7 @@ status: in_progress
 created: 2026-08-07
 completed:
 spawned_from: rmi-application/TODO/application.md
-spawns:
+spawns: TODO/feature_site_ogo-marketing-demo-page.md, ~/development/dogoodgroceries/TODO/feature_frontend_public-marketing-page.md
 related: rmi-application/TODO/application.md
 ---
 
@@ -29,7 +29,7 @@ posts are deep-linked; the actual engineering is unreachable. This TODO makes th
 - `~/development/dogoodstuff/index.html` — the whole site; single static page, GitHub Pages via
   `CNAME`, remote `chase1124/dogoodstuff`
 - `rmi-application/TODO/application.md` — the parent; the resume link depends on this work
-- Live sites that already exist: `groceries.dogoodstuff.org` (GreenCart — **auth-walled**, see 4b),
+- Live sites that already exist: `groceries.dogoodstuff.org` (DoGoodGroceries — **auth-walled**, see 4b),
   `dance.dogoodstuff.org`
 - `screenshots/ogo/README.md` — provenance + per-file guide for the 29 OGO captures, and the two
   caveats that constrain what a caption may claim. 📖 Prereq for any task that writes site copy
@@ -45,7 +45,7 @@ The site currently presents three projects at equal weight. That is not accurate
 | Project | Reality | Site should say |
 |---|---|---|
 | **OffGridOperator** | Real, running, in production at 46elm. Works on limited hardware configurations. | Running system + the hardware caveat |
-| **GreenCart** | Real, live at `groceries.dogoodstuff.org` | Live, with link |
+| **DoGoodGroceries** | Real, live at `groceries.dogoodstuff.org`. **Named GreenCart in older notes and still branded GreenCart in the deployed app — the product name is DoGoodGroceries** (James, 2026-08-09). | Live, with link |
 | **TrashRangers** | **PoC artwork only.** Nothing built. Ironically the only project with a screenshot on disk. | Concept — do not imply it is software |
 | **dance.dogoodstuff.org** | Real and live, but off-message for a clean-energy application | James's call whether it appears |
 | **StorageCommander** | Real, not on the site at all | James's call whether it appears |
@@ -63,6 +63,11 @@ The site currently presents three projects at equal weight. That is not accurate
       the project that doesn't exist. GreenCart's fake even drew a populated CO₂ chart — the one
       feature that renders empty in reality. Card art is generated into `screenshots/cards/`,
       cropped to the frame's measured 1.146 aspect so no panel is sliced.
+      **Amended 2026-08-09 on James's direction:** card order is now OffgridOperator →
+      DoGoodGroceries → TrashRangers, so the running systems lead and the concept comes last. And
+      **the product is DoGoodGroceries, not GreenCart** — renamed throughout the page, and
+      `screenshots/dogoodgroceries/` moved to `screenshots/dogoodgroceries/`. ⚠ The deployed app still
+      brands itself GreenCart, so the two now disagree; that rename is task 2 of the child TODO.
 - [x] **2. Link GreenCart to `groceries.dogoodstuff.org` — DONE 2026-08-07.** The modal template
       grew an optional `link`/`linkLabel` field; GreenCart's renders an "Open GreenCart →" button
       beside the status pill. OffgridOperator deliberately has no link — see 4d, the portal is
@@ -80,12 +85,12 @@ The site currently presents three projects at equal weight. That is not accurate
       page is built. Strongest four: `replay-day-animation.gif`,
       `explorer-model-fidelity-full.png`, `replay-day-pnl.png`, `replay-shade-by-array.png`.
 - [x] **4b. GreenCart screenshots — DONE 2026-08-07.** Four captures + the login page in
-      `screenshots/greencart/`, taken through the Claude-in-Chrome extension against James's
+      `screenshots/dogoodgroceries/`, taken through the Claude-in-Chrome extension against James's
       signed-in Chrome (the app is behind email/password + passkey auth; no credential passed
       through Claude). Quality caveat: viewport JPEGs, not retina PNGs like the OGO set.
       **⚠ This repo is PUBLIC and serves the site via GitHub Pages**, so the two admin captures —
       the best engineering evidence GreenCart has, and the only ones exposing real purchases and
-      `james@dogoodstuff.org` — are held in `screenshots/greencart/UNPUBLISHED/`, which is
+      `james@dogoodstuff.org` — are held in `screenshots/dogoodgroceries/UNPUBLISHED/`, which is
       gitignored. They exist on disk; they are not in git history. `README.md` there lays out
       three ways to use them. **James's call**, and nothing publishes them by accident.
       **Two things the app told us that the resume doesn't say:** the product's own tagline is
@@ -98,7 +103,7 @@ The site currently presents three projects at equal weight. That is not accurate
       is to carry any weight in an energy application. Options: run the enrichment backlog (the
       Overview page's "Enrichment opportunities" queue is the same backlog) and re-shoot; or
       leave it and don't feature emissions in the site copy. **Do not screenshot it as-is.**
-      📖 Prereq: `screenshots/greencart/README.md`
+      📖 Prereq: `screenshots/dogoodgroceries/README.md`
 - [x] **4c. TrashRangers' image — RESOLVED 2026-08-07.** James's call: "conceptual is more
       correct." The artwork stays; the card and modal now label it Concept, so a mockup reads as
       design work rather than a running app. Note the artwork still shows invented user data
@@ -120,11 +125,13 @@ The site currently presents three projects at equal weight. That is not accurate
 
 ## After submitting — the fuller portfolio
 
-- [ ] **7. `ogo.dogoodstuff.org`** — OffGridOperator portfolio page. Include the "works on limited
-      hardware configurations; if you're interested in helping expand to additional configurations,
-      reach out via email" call for collaborators.
-- [ ] **8. Same collaborator ask on `groceries.dogoodstuff.org`** — "interested in helping expand our
-      database of products, reach out via email."
+- [ ] **7. `ogo.dogoodstuff.org` — marketing / demo page for OffGridOperator.**
+      **[delegated → `TODO/feature_site_ogo-marketing-demo-page.md`]**
+      This is where the other 28 OGO captures earn their place; the main site uses only one.
+- [ ] **8. `groceries.dogoodstuff.org` pre-login page should be marketing, not a bare sign-in form.**
+      **[delegated → `~/development/dogoodgroceries/TODO/feature_frontend_public-marketing-page.md`]**
+      Carries the collaborator ask, the GreenCart→DoGoodGroceries rename, and the warning not to
+      advertise CO₂ until the enrichment has been run.
 - [ ] **9. Decide dance + StorageCommander.** Both real. Both arguably off-message for an energy
       audience, but a portfolio that shows range is not automatically weaker. James's call.
 
