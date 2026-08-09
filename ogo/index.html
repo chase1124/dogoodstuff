@@ -593,10 +593,10 @@
             The grid-charge trace here is the real power profile of a single session —
             <strong>4.52 kWh drawn, costed at −$1.47</strong> — not a monthly total you have to take
             on faith.</p>
-            <p>The layers stack: session ribbons over the raw watt trace over the device's own
-            on/idle/off state, with humidity underneath for the loads that answer to it. Watts
-            outside a ribbon are flagged as an untracked run — <strong>the system audits its own
-            bookkeeping</strong> rather than assuming it caught everything.</p>
+            <p>Layers toggle on and off: session ribbons, the raw watt trace, each device's own
+            on/idle/off state, and humidity for the loads that answer to it. Watts falling outside a
+            ribbon are flagged as an untracked run, so <strong>the bookkeeping is auditable rather
+            than assumed</strong>.</p>
             <a class="full-link" href="../screenshots/ogo/sessions-timeline-aug4.png">View full size →</a>
           </div>
         </div>
@@ -629,10 +629,10 @@
 
       <!-- 06 MODEL -->
       <div class="pane" id="pane-5" role="tabpanel" aria-labelledby="tab-5">
-        <a class="pane-stage" href="../screenshots/ogo/explorer-model-fidelity-full.png">
-          <img src="../screenshots/ogo/explorer-model-fidelity-full.png" loading="lazy"
-               alt="Model fidelity screen: capture-ratio tiles per array, an expected-versus-actual chart where solid lines are actual output and dashed lines are the physical expectation across a week, and a per-array per-day capture ratio grid."
-               width="6112" height="3520">
+        <a class="pane-stage" href="../screenshots/ogo/explorer-expected-vs-actual.png">
+          <img src="../screenshots/ogo/explorer-expected-vs-actual.png" loading="lazy"
+               alt="Expected versus actual chart across eight days: for each array a solid line traces actual output and a dashed line traces the physical expectation, with the gap between them visible on every daily peak."
+               width="6112" height="1340">
         </a>
         <div class="pane-body">
           <div>
@@ -644,10 +644,10 @@
             The expectation is plane-of-array irradiance computed from the <em>measured</em> sky and
             each array's geometry — so a gap is a real capture loss, and "it was cloudy" is already
             accounted for.</p>
-            <p>The grid underneath is capture ratio per array, per day. One bad afternoon is weather.
-            A row that stays low all week is hardware, and it's the kind of thing that otherwise goes
+            <p>Eight days at a glance. A gap that opens on one afternoon is weather. A gap that holds
+            the same shape every day is hardware, and it is the kind of thing that otherwise goes
             unnoticed for a season.</p>
-            <a class="full-link" href="../screenshots/ogo/explorer-model-fidelity-full.png">View full size →</a>
+            <a class="full-link" href="../screenshots/ogo/explorer-expected-vs-actual.png">View full size →</a>
           </div>
         </div>
       </div>
