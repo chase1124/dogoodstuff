@@ -68,6 +68,32 @@ been captured from it:
 poppler or ghostscript, and installing them ad hoc is against the ansible-only rule. Capture from
 the Mac with headless Chrome over CDP, as the 46elm set was.
 
+## ⚠ The expected-vs-actual GAP does not mean what a caption would assume — verified 2026-08-10
+
+Any caption on `explorer-expected-vs-actual.png`, `explorer-model-fidelity-full.png`,
+`replay-actual-vs-poa*.png` or `replay-day-pnl.png` is describing that gap. **At 46elm nobody
+currently knows what it is**, so do not call it recoverable loss, lost money, or hardware.
+
+Measured from `array_metrics`: 46elm captures **27–68% of expected, median ~50%, every day for 30
+straight days**, never near 100%, equally stable on bright and overcast days.
+
+- The model is **not** inflated — 7.64 kW nameplate, expected implies 4.6–6.3 peak-sun-hours,
+  right for western Massachusetts in August.
+- It is **not curtailment**, the obvious guess for an off-grid array: the battery had not been full
+  for **21 days**, the site was in active deficit, and `curtailment_events` holds **5 rows total in
+  its whole history**.
+- Live hypothesis is **unmeasured tilt/azimuth** — 46elm's expectation falls back to a flat-plane
+  estimate, which is exactly what the `PROVISIONAL` badge is telling you. Kingman is the control:
+  same build, angles measured, capture reaching **87%** with real >100% days, while its one
+  unmeasured array sits at 21%.
+
+Full workings and what would settle it:
+`~/development/homeassistant/offgridoperator/TODO/research_analytics_46elm-capture-ratio-sits-at-half-expected.md`
+
+⚠ Also: **`hour_class` is NULL for 76% of rows.** "Every array-hour is classified" overstates it.
+⚠ Also: **46elm is 7.64 kW / 30.41 kWh**, not the "20 kW / 60 kWh" the main site claims — those
+look like both-sites totals attributed to one system.
+
 ## Two honesty notes before any of this goes on the site
 
 1. **Curtailment is not priced yet.** The Day P&L panel says so itself: *"Curtailment: none drawn
