@@ -14,8 +14,16 @@
 //   node tools/capture.mjs --url … --out … --selector "#panel"     # clip to one element
 //   node tools/capture.mjs --url … --out … --click "button.day"    # click, then shoot
 //   node tools/capture.mjs --url … --out … --full                  # whole scrollable page
+//   node tools/capture.mjs --url … --out … --cookie "session=eyJ…"  # shoot a LOGGED-IN page
 //
 // Flags: --width (default 1600 CSS px) --scale (default 2, i.e. retina) --wait (ms after load)
+//        --cookie NAME=VALUE (repeatable) — set before navigating, scoped to --url's host
+//
+// WHY --cookie EARNS ITS PLACE: without it this driver can only shoot pages that are public,
+// which in most of our apps is the login screen and nothing else. A session-gated surface is
+// exactly the one nobody can otherwise look at, so it is exactly the one that accumulates
+// unseen regressions. Mint the cookie the app's own way — for Flask, sign it with the app's
+// SECRET_KEY — rather than scripting a login form, which breaks the moment the form does.
 
 import { spawn } from 'node:child_process';
 import { mkdtemp, writeFile, rm } from 'node:fs/promises';
@@ -28,6 +36,9 @@ const arg = (name, fallback = null) => {
   return i === -1 ? fallback : (argv[i + 1]?.startsWith('--') ? true : argv[i + 1]);
 };
 const flag = (name) => argv.includes(`--${name}`);
+// Repeatable, unlike `arg`: several cookies are the normal case for a real session.
+const args = (name) => argv.reduce((acc, v, i) =>
+  (v === `--${name}` && argv[i + 1] && !argv[i + 1].startsWith('--')) ? [...acc, argv[i + 1]] : acc, []);
 
 const URL_ = arg('url');
 const OUT = arg('out');
@@ -37,6 +48,7 @@ const WIDTH = Number(arg('width', 1600));
 const SCALE = Number(arg('scale', 2));
 const WAIT = Number(arg('wait', 2500));
 const FULL = flag('full');
+const COOKIES = args('cookie');
 
 if (!URL_ || !OUT) {
   console.error('need --url and --out');
@@ -113,6 +125,22 @@ await send('Emulation.setDeviceMetricsOverride',
   { width: WIDTH, height: 1400, deviceScaleFactor: SCALE, mobile: false }, sessionId);
 await send('Page.enable', {}, sessionId);
 await send('Runtime.enable', {}, sessionId);
+
+// Cookies go in BEFORE the first navigation, or the page loads once as a logged-out user,
+// redirects to the login screen, and the session only takes effect on a reload nobody does.
+if (COOKIES.length) {
+  await send('Network.enable', {}, sessionId);
+  const { hostname } = new URL(URL_);
+  for (const pair of COOKIES) {
+    const eq = pair.indexOf('=');
+    if (eq < 1) { await cleanup(); throw new Error(`--cookie wants NAME=VALUE, got: ${pair}`); }
+    await send('Network.setCookie', {
+      name: pair.slice(0, eq), value: pair.slice(eq + 1),
+      domain: hostname, path: '/',
+    }, sessionId);
+  }
+}
+
 await send('Page.navigate', { url: URL_ }, sessionId);
 
 for (let i = 0; i < 80 && !events.includes('Page.loadEventFired'); i++) await sleep(100);
