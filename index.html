@@ -867,6 +867,17 @@
     line-height: 1.85;
   }
 
+  /* Until WON's card there was no link inside a modal paragraph, so an <a> here fell through
+     to the browser default: blue and underlined on a dark brown panel. */
+  .modal-desc a {
+    color: var(--wheat);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,201,138,0.4);
+    transition: border-color 0.25s ease;
+  }
+
+  .modal-desc a:hover { border-bottom-color: var(--wheat); }
+
   .modal-features {
     margin-top: 1.8rem;
     padding-top: 1.5rem;
@@ -1021,7 +1032,7 @@
     <div class="apps-header reveal">
       <p class="eyebrow">The Work</p>
       <h2>What we're building</h2>
-      <p class="apps-intro">Experiments in applied philosophy. Tools that serve an educational outcome — and then get out of the way.</p>
+      <p class="apps-intro">Experiments in applied philosophy. Tools that serve an educational outcome — and then get out of the way. One of them is the harness we run ourselves; we build in the open about that too.</p>
     </div>
     <div class="apps-grid reveal">
       <!-- OffgridOperator -->
@@ -1045,6 +1056,27 @@
         </div>
       </div>
 
+      <!-- DanceLocal -->
+      <div class="app-card" onclick="openAppModal('dancelocal')">
+        <div class="app-screen">
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+            </div>
+            <div class="browser-content">
+              <img src="screenshots/cards/card-dancelocal.png" loading="lazy"
+                   alt="DanceLocal event feed — a Bachata social with its style mix, both prices, and the organizer's own page to check whether it is still on"/>
+            </div>
+          </div>
+        </div>
+        <div class="app-info">
+          <h3>DanceLocal</h3>
+          <p>Dance where you are.</p>
+          <span class="app-status status-live">Live</span>
+          <div class="app-more">Details &rarr;</div>
+        </div>
+      </div>
+
       <!-- DoGoodGroceries -->
       <div class="app-card" onclick="openAppModal('dogoodgroceries')">
         <div class="app-screen">
@@ -1063,6 +1095,90 @@
           <p>See what your groceries actually cost.</p>
           <span class="app-status status-live">Live</span>
           <div class="app-more">Details →</div>
+        </div>
+      </div>
+
+      <!-- WON -->
+      <div class="app-card" onclick="openAppModal('won')">
+        <div class="app-screen">
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+            </div>
+            <div class="browser-content">
+              <!-- A DIAGRAM, not a capture. WON runs on an internal-only hostname and its real
+                   screen carries host names, session ids and task paths; publishing one would
+                   put internal infrastructure naming on a public page for no gain. This shows
+                   the structure the description claims: a session rail, the tab row, and the
+                   authored / generated split. -->
+              <svg viewBox="0 0 370 250" role="img"
+                   aria-label="WON's layout: a rail of live sessions on the left, and a work view whose sections are split between authored and generated.">
+                <rect width="370" height="250" fill="#0f1510"/>
+                <!-- session rail -->
+                <rect x="0" y="0" width="96" height="250" fill="rgba(245,237,216,0.045)"/>
+                <rect x="12" y="16" width="46" height="5" rx="2.5" fill="rgba(245,237,216,0.30)"/>
+                <g fill="rgba(245,237,216,0.13)">
+                  <rect x="12" y="38" width="72" height="4" rx="2"/>
+                  <rect x="12" y="48" width="52" height="3" rx="1.5"/>
+                  <rect x="12" y="70" width="66" height="4" rx="2"/>
+                  <rect x="12" y="80" width="46" height="3" rx="1.5"/>
+                  <rect x="12" y="134" width="64" height="4" rx="2"/>
+                  <rect x="12" y="144" width="50" height="3" rx="1.5"/>
+                </g>
+                <!-- two sessions currently holding a task -->
+                <rect x="0" y="98" width="96" height="26" fill="rgba(127,201,154,0.08)"/>
+                <rect x="0" y="98" width="2" height="26" fill="#7fc99a"/>
+                <rect x="12" y="102" width="70" height="4" rx="2" fill="rgba(245,237,216,0.42)"/>
+                <rect x="12" y="112" width="44" height="3" rx="1.5" fill="rgba(245,237,216,0.18)"/>
+                <circle cx="88" cy="111" r="3" fill="#7fc99a"/>
+                <rect x="0" y="166" width="96" height="26" fill="rgba(127,201,154,0.08)"/>
+                <rect x="0" y="166" width="2" height="26" fill="#7fc99a"/>
+                <rect x="12" y="170" width="62" height="4" rx="2" fill="rgba(245,237,216,0.42)"/>
+                <rect x="12" y="180" width="48" height="3" rx="1.5" fill="rgba(245,237,216,0.18)"/>
+                <circle cx="88" cy="179" r="3" fill="#7fc99a"/>
+                <!-- tab row -->
+                <rect x="112" y="16" width="40" height="12" rx="2" fill="rgba(232,201,138,0.22)"/>
+                <g fill="rgba(245,237,216,0.09)">
+                  <rect x="158" y="16" width="30" height="12" rx="2"/>
+                  <rect x="194" y="16" width="28" height="12" rx="2"/>
+                  <rect x="228" y="16" width="32" height="12" rx="2"/>
+                </g>
+                <rect x="112" y="33" width="246" height="1" fill="rgba(245,237,216,0.10)"/>
+                <!-- authored section -->
+                <rect x="112" y="50" width="9" height="9" rx="1.5" fill="rgba(232,201,138,0.55)"/>
+                <rect x="128" y="52" width="104" height="5" rx="2.5" fill="rgba(245,237,216,0.34)"/>
+                <g fill="rgba(245,237,216,0.11)">
+                  <rect x="128" y="68" width="220" height="3.5" rx="1.75"/>
+                  <rect x="128" y="78" width="206" height="3.5" rx="1.75"/>
+                  <rect x="128" y="88" width="168" height="3.5" rx="1.75"/>
+                </g>
+                <!-- generated section -->
+                <rect x="112" y="122" width="9" height="9" rx="1.5" fill="rgba(127,201,154,0.6)"/>
+                <rect x="128" y="124" width="126" height="5" rx="2.5" fill="rgba(245,237,216,0.34)"/>
+                <g fill="rgba(127,201,154,0.16)">
+                  <rect x="128" y="140" width="220" height="3.5" rx="1.75"/>
+                  <rect x="128" y="150" width="188" height="3.5" rx="1.75"/>
+                  <rect x="128" y="160" width="212" height="3.5" rx="1.75"/>
+                  <rect x="128" y="170" width="152" height="3.5" rx="1.75"/>
+                </g>
+                <!-- checklist rolled up from the task file -->
+                <g>
+                  <rect x="128" y="192" width="8" height="8" rx="1.5" fill="none" stroke="rgba(127,201,154,0.45)" stroke-width="1"/>
+                  <rect x="142" y="194" width="110" height="3.5" rx="1.75" fill="rgba(245,237,216,0.10)"/>
+                  <rect x="128" y="208" width="8" height="8" rx="1.5" fill="rgba(127,201,154,0.35)"/>
+                  <rect x="142" y="210" width="88" height="3.5" rx="1.75" fill="rgba(245,237,216,0.10)"/>
+                  <rect x="128" y="224" width="8" height="8" rx="1.5" fill="rgba(127,201,154,0.35)"/>
+                  <rect x="142" y="226" width="128" height="3.5" rx="1.75" fill="rgba(245,237,216,0.10)"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="app-info">
+          <h3>WON</h3>
+          <p>Read the work, not the transcript.</p>
+          <span class="app-status status-dev">In development</span>
+          <div class="app-more">Details &rarr;</div>
         </div>
       </div>
 
@@ -1189,6 +1305,26 @@
       ],
       status: 'Concept', cls: 'status-concept'
     },
+    dancelocal: {
+      name: 'DanceLocal',
+      tagline: 'Dance where you are.',
+      link: 'https://dance.dogoodstuff.org',
+      linkLabel: 'Open DanceLocal',
+      desc: [
+        'Partner-dance events are the hardest kind of listing to keep true. They are irregular \u2014 &ldquo;first Saturday, monthly&rdquo; \u2014 they move venues, and they get called off the afternoon of, in a Facebook post nobody outside the scene ever sees. Every aggregator that tries to own that information ends up confidently wrong.',
+        'DanceLocal takes the opposite position. It never claims an event is definitely happening. Each night carries a <strong>Still on? Check:</strong> row that hands you the organizer\u2019s own page and the DJ\u2019s \u2014 the places the cancellation will actually appear \u2014 so the app is a way in rather than an authority.',
+        'What it does own is the shape of the night: the style mix as a bar (45% bachata, 45% salsa, 5% kizomba, 5% merengue), whether there is a lesson and when it ends, and both prices. Local curators maintain their own scenes behind passkey sign-in; nothing here is scraped and left to rot.',
+        'Live today across New England. <strong>The name is moving to <code>dancelocal.org</code></strong> \u2014 the domain is held; <code>dance.dogoodstuff.org</code> is a launch address and will keep resolving.'
+      ],
+      features: [
+        'Irregular and one-off events, not just weekly series',
+        'Every listing links back to its authoritative source',
+        'Per-night style mix, lesson window and both price tiers',
+        'List and map views, filtered by style, format and state',
+        'Curator accounts with passkey sign-in, per scene',
+      ],
+      status: 'Live', cls: 'status-live'
+    },
     dogoodgroceries: {
       name: 'DoGoodGroceries',
       tagline: 'See what your groceries actually cost.',
@@ -1207,6 +1343,24 @@
         'CO₂ footprint per item — built, not yet populated',
       ],
       status: 'Live', cls: 'status-live'
+    },
+    won: {
+      name: 'WON',
+      tagline: 'Read the work, not the transcript.',
+      desc: [
+        '<strong>Our own harness, and the only thing here we built for ourselves.</strong> Everything else on this page is a tool for someone outside the building; WON is how the building runs.',
+        'The problem it solves is specific. Work now happens across many parallel agent sessions, and the record each one leaves is a transcript \u2014 thousands of lines, correct, and unreadable. The status of the work ends up locked inside a conversation nobody will ever scroll. WON is a page you open <em>instead</em> of that: land on a task, get a brief on where it stands, and click through only when you want the detail.',
+        'The design ruling that makes it work is a hard split between what a session <em>writes</em> and what is <em>generated</em>. The narrative half is authored by hand. The half that says what is left \u2014 the checklist, the sibling tasks, the state of the track \u2014 is read from the task files themselves, every time the page is opened, and can never be typed. A status that is derived cannot drift from the work it describes. The standing instruction is to keep moving content from the first column into the second.',
+        'Under construction, running against our live corpus. <strong>If you are trying to solve this for your own team, we are happy to talk about how it is built</strong> \u2014 <a href="mailto:james@dogoodstuff.org">james@dogoodstuff.org</a>.'
+      ],
+      features: [
+        'One brief per task, in place of a session transcript',
+        'Authored narrative and generated status, split by design',
+        'Remaining work read from the task files at open time, never typed',
+        'A live rail of which sessions hold which work, across hosts',
+        'Releases a task held by a session that no longer exists',
+      ],
+      status: 'In development', cls: 'status-dev'
     },
     offgrid: {
       name: 'OffgridOperator',
